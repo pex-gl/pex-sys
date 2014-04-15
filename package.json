@@ -1,0 +1,36 @@
+{
+  "name": "pex-sys",
+  "version": "0.0.1",
+  "description": "System and platform specific utilities the pex library",
+  "homepage": "https://github.com/vorg/pex-sys",
+  "keywords": [
+    "geometry",
+    "3d",
+    "graphics"
+  ],
+  "author": {
+    "name": "Marcin Ignac",
+    "email": "marcin.ignac@gmail.com",
+    "url": "http://marcinignac.com"
+  },
+  "contributors": [
+    {
+      "name": "Szymon Kaliski",
+      "email": "kaliskiszymon@gmail.com",
+      "url": "http://treesmovethemost.com"
+    }
+  ],
+  "main": "index.js",
+  "devDependencies": {
+  },
+  "dependencies": {
+    "merge": "1.1.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vorg/pex-sys.git"
+  },
+  "bugs": "https://github.com/vorg/pex-sys/issues",
+  "homepage": "https://github.com/vorg/pex-sys.git",
+  "license": "MIT"
+}
