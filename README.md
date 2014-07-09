@@ -1,1 +1,1 @@
-System and platform specific utilities the pex library
+System and platform specific utilities for the pex library
