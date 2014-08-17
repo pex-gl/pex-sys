@@ -1,6 +1,6 @@
 {
   "name": "pex-sys",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "System and platform specific utilities the pex library",
   "homepage": "https://github.com/vorg/pex-sys",
   "keywords": [
