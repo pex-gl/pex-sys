@@ -1,8 +1,8 @@
 {
   "name": "pex-sys",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "System and platform specific utilities the pex library",
-  "homepage": "https://github.com/vorg/pex-sys",
+  "homepage": "https://github.com/vorg/pex-sys.git",
   "keywords": [
     "geometry",
     "3d",
@@ -21,8 +21,7 @@
     }
   ],
   "main": "index.js",
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "merge": "~1.2.0"
   },
@@ -31,6 +30,5 @@
     "url": "https://github.com/vorg/pex-sys.git"
   },
   "bugs": "https://github.com/vorg/pex-sys/issues",
-  "homepage": "https://github.com/vorg/pex-sys.git",
   "license": "MIT"
 }
