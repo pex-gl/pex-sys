@@ -1,7 +1,8 @@
 var Context         = require('pex-context/Context');
-var WindowBrowser   = require('./WindowBrowser');
 var isBrowser       = require('is-browser');
-var plask           = require('plask');
+var plask           = isBrowser ? {} : require('plask');
+var WindowBrowser   = require('./WindowBrowser');
+var ResourceLoader  = require('./ResourceLoader');
 
 var current = null;
 
@@ -86,12 +87,35 @@ Window.create = function(obj){
         window.settings.multisample = true;
     }
 
-    if (isBrowser) {
-        WindowBrowser.simpleWindow(window);
+    //TODO: ugly!
+    function start() {
+        if (isBrowser) {
+            WindowBrowser.simpleWindow(window);
+        }
+        else { //assuming Plask
+            plask.simpleWindow(window);
+        }
     }
-    else { //assuming Plask
-        plask.simpleWindow(window);
+
+    if (window.resources) {
+        ResourceLoader.load(window.resources, function(err, res) {
+            if (err) {
+                console.log('Window.create failed loading resources');
+                console.log(err);
+            }
+            else {
+                window.getResources = function() {
+                    return res;
+                }
+                start();
+            }
+        })
     }
+    else {
+        start();
+    }
+
+
 };
 
 Window.getCurrent = function(){
