@@ -60,6 +60,7 @@ Window.create = function(obj){
 
     current = window;
 
+    //TODO: always default to '3d'
     if (obj.settings.type == '3d') {
         //sure...
         var init = window.init;
