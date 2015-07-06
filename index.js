@@ -1,4 +1,4 @@
 module.exports = {
-    Platform: require('./lib/Platform'),
-    Window: require('./lib/Window')
+    Platform: require('./Platform'),
+    Window: require('./Window')
 };

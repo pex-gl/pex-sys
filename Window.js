@@ -1,5 +1,5 @@
+var Context         = require('pex-context/Context');
 var Platform        = require('./Platform');
-var Context3d       = require('../p3d/Context');
 var WindowBrowser   = require('./WindowBrowser');
 var plask           = Platform.isPlask ? require('plask') : {};
 
@@ -66,7 +66,7 @@ Window.create = function(obj){
             if (Platform.isPlask) {
                 this.framerate(60);
             }
-            this._ctx = new Context3d(this.gl);
+            this._ctx = new Context(this.gl);
             delete this.gl;
             init.call(this);
         };
