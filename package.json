@@ -1,7 +1,7 @@
 {
   "name": "pex-sys",
   "version": "1.0.0-alpha.1",
-  "description": "System and platform specific utilities the pex library",
+  "description": "System and platform specific utilities for the pex library",
   "homepage": "https://github.com/variablestudio/pex-sys",
   "keywords": [
     "pex",
