@@ -1,3 +1,4 @@
 module.exports = {
-    Window: require('./Window')
+    Window: require('./Window'),
+    ResourceLoader: require('./ResourceLoader')
 };
