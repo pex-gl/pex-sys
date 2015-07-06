@@ -47,6 +47,13 @@ function load(resources, callback) {
         else if (res.binary) {
             io.loadBinary(res.binary, onLoaded);
         }
+        else if (res.glsl) {
+            res.glsl.then(function(glslString) {
+                onLoaded(null, glslString);
+            }).catch(function(e) {
+                onLoaded(e, null);
+            })
+        }
         else {
             onLoaded('ResourceLoader.load unknown resource type ' + Object.keys(res), null);
         }
