@@ -32,5 +32,8 @@
     "url": "https://github.com/variablestudio/pex-sys.git"
   },
   "bugs": "https://github.com/variablestudio/pex-sys/issues",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "is-browser": "^2.0.1"
+  }
 }

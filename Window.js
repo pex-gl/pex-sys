@@ -1,7 +1,7 @@
 var Context         = require('pex-context/Context');
-var Platform        = require('./Platform');
 var WindowBrowser   = require('./WindowBrowser');
-var plask           = Platform.isPlask ? require('plask') : {};
+var isBrowser       = require('is-browser');
+var plask           = require('plask');
 
 var current = null;
 
@@ -63,7 +63,7 @@ Window.create = function(obj){
         //sure...
         var init = window.init;
         window.init = function() {
-            if (Platform.isPlask) {
+            if (!isBrowser) {
                 this.framerate(60);
             }
             this._ctx = new Context(this.gl);
@@ -86,11 +86,11 @@ Window.create = function(obj){
         window.settings.multisample = true;
     }
 
-    if (Platform.isPlask) {
-        plask.simpleWindow(window);
-    }
-    else {
+    if (isBrowser) {
         WindowBrowser.simpleWindow(window);
+    }
+    else { //assuming Plask
+        plask.simpleWindow(window);
     }
 };
 

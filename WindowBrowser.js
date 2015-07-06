@@ -1,8 +1,8 @@
-var Platform = require('./Platform');
+var isBrowser       = require('is-browser');
 
 var requestAnimFrame    = null;
 
-if (Platform.isBrowser) {
+if (isBrowser) {
   requestAnimFrame = function() {
     return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback, element) {
       window.setTimeout(callback, 1000 / 60);
