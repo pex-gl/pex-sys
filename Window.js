@@ -57,7 +57,10 @@ Window.create = function(obj){
     }
 
     var winObj = {
-        settings: obj.settings,
+        settings: {
+            width: window.settings.width || 1280,
+            height: window.settings.height || 720
+        },
         init: function() {
             window._ctx = new Context(this.gl);
             window._width = this.width;
