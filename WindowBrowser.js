@@ -1,4 +1,5 @@
 var isBrowser       = require('is-browser');
+var Screen          = require('./Screen');
 
 var requestAnimFrame    = null;
 
@@ -48,10 +49,15 @@ function createBrowserWindow(obj) {
     canvas = document.createElement('canvas');
 
     //TODO: add fullscreen / fullwindow support
-    //TODO: add retina DPI x2 support
     //TODO: add default width, height support
+
+    var devicePixelRatio = Screen.getDevicePixelRatio();
+
     canvas.width = obj.settings.width;
     canvas.height = obj.settings.height;
+    canvas.style.width = obj.settings.width / devicePixelRatio + 'px';
+    canvas.style.height = obj.settings.height / devicePixelRatio + 'px';
+
     obj.width = canvas.width;
     obj.height = canvas.height;
 
