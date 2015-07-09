@@ -58,6 +58,10 @@ function load(resources, callback) {
             onLoaded('ResourceLoader.load unknown resource type ' + Object.keys(res), null);
         }
     });
+
+    if (resourceNames.length == 0) {
+        onFinish();
+    }
 }
 
 var ResourceLoader = {

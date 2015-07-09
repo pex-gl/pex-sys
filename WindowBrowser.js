@@ -43,7 +43,7 @@ function getWebGLContext(canvas, contextOptions) {
     return gl;
 }
 
-function simpleWindow(obj) {
+function createBrowserWindow(obj) {
     //TODO: add option to provide canvas reference
     canvas = document.createElement('canvas');
 
@@ -99,7 +99,7 @@ function simpleWindow(obj) {
 }
 
 var WindowBrowser = {
-    simpleWindow : simpleWindow
+    create : createBrowserWindow
 }
 
 module.exports = WindowBrowser;

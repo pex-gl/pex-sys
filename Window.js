@@ -1,31 +1,25 @@
 var Context         = require('pex-context/Context');
 var isBrowser       = require('is-browser');
-var plask           = isBrowser ? {} : require('plask');
 var WindowBrowser   = require('./WindowBrowser');
+var WindowPlask     = require('./WindowPlask');
 var ResourceLoader  = require('./ResourceLoader');
 
 var current = null;
 
 function Window(){
     this._ctx = null;
+    this._resources = { };
 }
 
 Window.prototype.init = function(){};
 Window.prototype.draw = function(){};
 
-Window.prototype.getSize = function(out){
-    out = out || new Array(2);
-    out[0] = this.width;
-    out[1] = this.height;
-    return out;
-};
-
 Window.prototype.getWidth = function(){
-    return this.width;
+    return this._width;
 };
 
 Window.prototype.getHeight = function(){
-    return this.height;
+    return this._height;
 };
 
 Window.prototype.getAspectRatio = function(){
@@ -51,72 +45,47 @@ Window.prototype.getContext = function(){
     return this._ctx;
 };
 
-//TODO: add default window options
+Window.prototype.getResources = function(){
+    return this._resources;
+};
+
 Window.create = function(obj){
     var window = new Window();
+
     for (var p in obj) {
         window[p] = obj[p];
     }
 
-    current = window;
-
-    //TODO: always default to '3d'
-    if (obj.settings.type == '3d') {
-        //sure...
-        var init = window.init;
-        window.init = function() {
-            if (!isBrowser) {
-                this.framerate(60);
-            }
-            this._ctx = new Context(this.gl);
-            delete this.gl;
-            init.call(this);
-        };
-        var draw = window.draw;
-        window.draw = function () {
-            current = window;
-            //this is were plask simplewindow should be unrolled
-            draw.call(this);
-        };
-    }
-    else {
-        //other context
+    var winObj = {
+        settings: {
+            width: window.settings.width,
+            height: window.settings.height
+        },
+        init: function() {
+            window._ctx = new Context(this.gl);
+            window._width = this.width;
+            window._height = this.height;
+            window.init();
+        },
+        draw: window.draw.bind(window)
     }
 
-    //defaults
-    if (window.settings.multisample === undefined) {
-        window.settings.multisample = true;
-    }
-
-    //TODO: ugly!
-    function start() {
-        if (isBrowser) {
-            WindowBrowser.simpleWindow(window);
+    ResourceLoader.load(window.resources || {}, function(err, res) {
+        if (err) {
+            console.log('Window.create failed loading resources');
+            console.log(err);
         }
-        else { //assuming Plask
-            plask.simpleWindow(window);
-        }
-    }
+        else {
+            window._resources = res;
 
-    if (window.resources) {
-        ResourceLoader.load(window.resources, function(err, res) {
-            if (err) {
-                console.log('Window.create failed loading resources');
-                console.log(err);
+            if (isBrowser) {
+                WindowBrowser.create(winObj);
             }
             else {
-                window.getResources = function() {
-                    return res;
-                }
-                start();
+                WindowPlask.create(winObj);
             }
-        })
-    }
-    else {
-        start();
-    }
-
-
+        }
+    })
 };
 
 Window.getCurrent = function(){
