@@ -16,25 +16,21 @@ var Screen = {
     getWidth: function(screenId) {
         screenId = screenId || 0;
 
-        var dpr = this.getDevicePixelRatio(screenId);
-
         if (isBrowser) {
-            return dpr * window.innerWidth;
+            return window.innerWidth;
         }
         else {
-            return dpr * plask.Window.screensInfo()[screenId].width;
+            return plask.Window.screensInfo()[screenId].width;
         }
     },
     getHeight: function(screenId) {
         screenId = screenId || 0;
 
-        var dpr = this.getDevicePixelRatio(screenId);
-
         if (isBrowser) {
-            return dpr * window.innerHeight;
+            return window.innerHeight;
         }
         else {
-            return dpr * plask.Window.screensInfo()[screenId].height;
+            return plask.Window.screensInfo()[screenId].height;
         }
     },
     getDevicePixelRatio: function(screenId) {
