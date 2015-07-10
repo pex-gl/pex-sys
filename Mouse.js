@@ -8,6 +8,7 @@ function Mouse() {
     this._y = 0;
     this._prevX = 0;
     this._prevY = 0;
+    this._isDown = false;
 }
 
 Mouse.prototype = Object.create(EventDispatcher.prototype);
@@ -38,10 +39,12 @@ Mouse.prototype.getDeltaY = function() {
 }
 
 Mouse.prototype.handleMouseDown = function(e) {
+    this._isDown = true;
     this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN, { x: this._x, y: this._y, mouse: this }));
 }
 
 Mouse.prototype.handleMouseUp = function(e) {
+    this._isDown = false;
     this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, { x: this._x, y: this._y, mouse: this }));
 }
 
@@ -51,17 +54,15 @@ Mouse.prototype.handleMouseMove = function(e) {
     this._x = e.x;
     this._y = e.y;
 
-    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE, { x: this._x, y: this._y, mouse: this }));
-}
+    var data = { x: this._x, y: this._y, mouse: this };
 
-//TODO: test this, should it fire both move and drag?
-Mouse.prototype.handleMouseDrag = function(e) {
-    this._prevX = this._x;
-    this._prevY = this._y;
-    this._x = e.x;
-    this._y = e.y;
-
-    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DRAG, { x: this._x, y: this._y, mouse: this }));
+    //don't fire mouse move events while dragging
+    if (this._isDown) {
+        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DRAG, data));
+    }
+    else {
+        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE, data));
+    }
 }
 
 Mouse.prototype.handleMouseScroll = function(e) {
