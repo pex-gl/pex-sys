@@ -19,7 +19,7 @@ var WebGLContextNames = [
 ];
 
 var DefaultWebGLContextOptions = {
-    alpha                           : true,
+    alpha                           : false,
     depth                           : true,
     stencil                         : false,
     antialias                       : true,
