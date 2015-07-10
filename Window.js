@@ -4,13 +4,16 @@ var WindowBrowser   = require('./WindowBrowser');
 var WindowPlask     = require('./WindowPlask');
 var ResourceLoader  = require('./ResourceLoader');
 var Mouse           = require('./Mouse');
+var MouseEvent      = require('./MouseEvent');
 var Keyboard        = require('./Keyboard');
+var KeyboardEvent   = require('./KeyboardEvent');
 
 var current = null;
 
 function Window(){
     this._ctx = null;
     this._resources = { };
+
     this._mouse = new Mouse();
     this._keyboard = new Keyboard();
 }
@@ -67,6 +70,12 @@ Window.create = function(obj){
     for (var p in obj) {
         window[p] = obj[p];
     }
+
+    if (window.onMouseDown) window._mouse.addEventListener(MouseEvent.MOUSE_DOWN, window.onMouseDown.bind(window));
+    if (window.onMouseUp) window._mouse.addEventListener(MouseEvent.MOUSE_UP, window.onMouseUp.bind(window));
+    if (window.onMouseMove) window._mouse.addEventListener(MouseEvent.MOUSE_MOVE, window.onMouseMove.bind(window));
+    if (window.onMouseDrag) window._mouse.addEventListener(MouseEvent.MOUSE_DRAG, window.onMouseDrag.bind(window));
+    if (window.onMouseScroll) window._mouse.addEventListener(MouseEvent.MOUSE_SCROLL, window.onMouseScroll.bind(window));
 
     var winObj = {
         settings: {

@@ -24,11 +24,11 @@ EventDispatcher.prototype.addEventListener = function (type, method) {
  */
 
 EventDispatcher.prototype.dispatchEvent = function (event) {
-    var type = event.type;
+    var type = event.getType();
     if (!this.hasEventListener(type)){
         return;
     }
-    event.sender = this;
+    event.setSender(this);
     var methods = this._listeners[type];
     var i = -1, l = methods.length;
     while (++i < l) {

@@ -5,10 +5,14 @@
  * @param {Object} [data] - The data
  * @constructor
  */
-function Event(sender,type,data){
-    this.sender = sender;
-    this.type   = type;
-    this.data   = data;
+function Event(type, data){
+    this._sender = null;
+    this._type   = type;
+    this._data   = data;
+
+    for(var prop in data) {
+        this[prop] = data[prop];
+    }
 
     this._stopPropagation = false;
 }
@@ -18,11 +22,24 @@ function Event(sender,type,data){
  */
 
 Event.prototype.copy = function(){
-    return new Event(this.sender,this.type,this.data);
+    return new Event(this._sender, this._type, this._data);
 };
 
 Event.prototype.stopPropagation = function(){
     this._stopPropagation = true;
 };
+
+Event.prototype.getSender = function(){
+    return this._sender;
+};
+
+Event.prototype.setSender = function(sender) {
+    this._sender = sender;
+};
+
+Event.prototype.getType = function(){
+    return this._type;
+};
+
 
 module.exports = Event;
