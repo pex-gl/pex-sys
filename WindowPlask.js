@@ -11,6 +11,11 @@ var WindowPlask = {
         obj._init = obj.init;
         obj.init = function() {
             this.framerate(60);
+
+            this.on('mouseMoved', function(e) {
+                obj.settings.mouse.handleMouseMove({ x: e.x, y: e.y });
+            })
+
             obj._init();
         }
         plask.simpleWindow(obj);
