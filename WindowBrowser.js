@@ -58,8 +58,26 @@ function createBrowserWindow(obj) {
     //canvas.style.width = obj.settings.width / devicePixelRatio + 'px';
     //canvas.style.height = obj.settings.height / devicePixelRatio + 'px';
 
+    var mouse = obj.settings.mouse;
+
+    canvas.addEventListener('mousedown', function(e) {
+        mouse.handleMouseDown({ x: e.offsetX, y: e.offsetY });
+    })
+
+    canvas.addEventListener('mouseup', function(e) {
+        mouse.handleMouseUp({ x: e.offsetX, y: e.offsetY });
+    })
+
     canvas.addEventListener('mousemove', function(e) {
-        obj.settings.mouse.handleMouseMove({ x: e.offsetX, y: e.offsetY });
+        mouse.handleMouseMove({ x: e.offsetX, y: e.offsetY });
+    })
+
+    var mouseWheelEvent = /Firefox/i.test(navigator.userAgent) ? 'DOMMouseScroll' : 'mousewheel';
+    //FIXME: horizontal scroll in the browser? What is .detail?
+    window.addEventListener(mouseWheelEvent, function(e) {
+        var dx = 0;
+        var dy = e.wheelDelta / 10 || -e.detail / 10;
+        obj.settings.mouse.handleMouseScroll({ dx: dx, dy: dy });
     })
 
     obj.width = canvas.width;
