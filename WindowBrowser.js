@@ -46,7 +46,7 @@ function getWebGLContext(canvas, contextOptions) {
 
 function createBrowserWindow(obj) {
     //TODO: add option to provide canvas reference
-    canvas = document.createElement('canvas');
+    var canvas = document.createElement('canvas');
 
     //TODO: add fullscreen / fullwindow support
     //TODO: add default width, height support
