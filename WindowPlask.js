@@ -1,6 +1,7 @@
 var isBrowser       = require('is-browser');
 var plask           = isBrowser ? {} : require('plask');
 var Screen          = require('./Screen');
+var now             = require("performance-now");
 
 var WindowPlask = {
     create: function(obj) {
@@ -32,6 +33,12 @@ var WindowPlask = {
             });
 
             obj._init();
+        }
+
+        obj._draw = obj.draw;
+        obj.draw = function() {
+            obj.settings.time._update(now());
+            obj._draw();
         }
         plask.simpleWindow(obj);
     }

@@ -3,6 +3,7 @@ var isBrowser       = require('is-browser');
 var WindowBrowser   = require('./WindowBrowser');
 var WindowPlask     = require('./WindowPlask');
 var ResourceLoader  = require('./ResourceLoader');
+var Time            = require('./Time');
 var Mouse           = require('./Mouse');
 var MouseEvent      = require('./MouseEvent');
 var Keyboard        = require('./Keyboard');
@@ -14,6 +15,7 @@ function Window(){
     this._ctx = null;
     this._resources = { };
 
+    this._time = new Time();
     this._mouse = new Mouse();
     this._keyboard = new Keyboard();
 }
@@ -56,6 +58,10 @@ Window.prototype.getResources = function(){
     return this._resources;
 };
 
+Window.prototype.getTime = function() {
+    return this._time;
+};
+
 Window.prototype.getMouse = function() {
     return this._mouse;
 };
@@ -81,6 +87,7 @@ Window.create = function(obj){
         settings: {
             width    : window.settings.width || 1280,
             height   : window.settings.height || 720,
+            time     : window._time,
             mouse    : window._mouse,
             keyboard : window._keyboard
         },
