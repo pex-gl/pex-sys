@@ -40,12 +40,14 @@ Mouse.prototype.getDeltaY = function() {
 
 Mouse.prototype.handleMouseDown = function(e) {
     this._isDown = true;
-    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN, { x: this._x, y: this._y, mouse: this }));
+    e.mouse = this;
+    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DOWN, e));
 }
 
 Mouse.prototype.handleMouseUp = function(e) {
     this._isDown = false;
-    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, { x: this._x, y: this._y, mouse: this }));
+    e.mouse = this;
+    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_UP, e));
 }
 
 Mouse.prototype.handleMouseMove = function(e) {
@@ -54,19 +56,20 @@ Mouse.prototype.handleMouseMove = function(e) {
     this._x = e.x;
     this._y = e.y;
 
-    var data = { x: this._x, y: this._y, mouse: this };
+    e.mouse = this;
 
     //don't fire mouse move events while dragging
     if (this._isDown) {
-        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DRAG, data));
+        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_DRAG, e));
     }
     else {
-        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE, data));
+        this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_MOVE, e));
     }
 }
 
 Mouse.prototype.handleMouseScroll = function(e) {
-    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_SCROLL, { dx: e.dx, dy: e.dy, mouse: this }));
+    e.mouse = this;
+    this.dispatchEvent(new MouseEvent(MouseEvent.MOUSE_SCROLL, e));
 }
 
 module.exports = Mouse;
