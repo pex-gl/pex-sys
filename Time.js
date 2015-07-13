@@ -3,6 +3,8 @@ function Time() {
     this._now = 0;
     this._prev = 0;
     this._delta = 0;
+    this._deltaSeconds = 0;
+    this._elapsedSeconds = 0;
     this._frames = 0;
     this._stopped = false;
 
@@ -16,6 +18,10 @@ Time.prototype._update = function(now) {
     this._prev = this._now;
     this._now = now;
     this._delta = this._now - this._prev;
+
+    this._deltaSeconsd = this._delta / 1000;
+    this._elapsedSeconds = (this._now - this._start) / 1000;
+
     this._frames++;
 
     if (this._fpsTime > this._fpsUpdateFrequency) {
@@ -31,6 +37,8 @@ Time.prototype._update = function(now) {
 
 Time.prototype._stop = function() {
     this._stopped = true;
+    this._delta = 0;
+    this._deltaSeconds = 0;
 
     this._fpsFrames = 0;
     this._fpsTime = 0;
@@ -44,6 +52,8 @@ Time.prototype._restart = function(now) {
     this._delta = 0;
     this._frames = 0;
     this._stopped = false;
+    this._deltaSeconds = 0;
+    this._elapsedSeconds = 0;
 
     this._fpsFrames = 0;
     this._fpsTime = 0;
@@ -66,12 +76,12 @@ Time.prototype.getDelta = function() {
 }
 
 Time.prototype.getDeltaSeconds = function() {
-    return this._delta / 1000;
+    return this._deltaSeconds;
 }
 
 //FIXME: cache that?
 Time.prototype.getElapsedSeconds = function() {
-    return (this._now - this._start) / 1000;
+    return this._elapsedSeconds;
 }
 
 Time.prototype.getElapsedFrames = function() {
