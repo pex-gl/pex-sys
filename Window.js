@@ -118,6 +118,7 @@ Window.create = function(obj){
     })
 };
 
+//FIXME: finish implementing or drop Window.getCurrent()
 Window.getCurrent = function(){
     return current;
 };
