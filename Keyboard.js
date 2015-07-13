@@ -13,6 +13,11 @@ Keyboard.prototype.handleKeyDown = function(e) {
     this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, e));
 }
 
+Keyboard.prototype.handleKeyPress = function(e) {
+    e.keyboard = this;
+    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_PRESS, e));
+}
+
 Keyboard.prototype.handleKeyUp = function(e) {
     e.keyboard = this;
     this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, e));

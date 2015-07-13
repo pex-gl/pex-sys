@@ -84,6 +84,7 @@ Window.create = function(obj){
     if (window.onMouseScroll) window._mouse.addEventListener(MouseEvent.MOUSE_SCROLL, window.onMouseScroll.bind(window));
 
     if (window.onKeyDown) window._keyboard.addEventListener(KeyboardEvent.KEY_DOWN, window.onKeyDown.bind(window));
+    if (window.onKeyPress) window._keyboard.addEventListener(KeyboardEvent.KEY_PRESS, window.onKeyPress.bind(window));
     if (window.onKeyUp) window._keyboard.addEventListener(KeyboardEvent.KEY_UP, window.onKeyUp.bind(window));
 
     var winObj = {
