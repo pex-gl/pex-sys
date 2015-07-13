@@ -69,6 +69,28 @@ var WindowPlask = {
 
             var keyboard = obj.input.keyboard;
 
+            this.on('keyDown', function(e) {
+                keyboard.handleKeyDown({
+                    str      : e.str,
+                    keyCode  : e.keyCode,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
+            })
+
+            this.on('keyUp', function(e) {
+                keyboard.handleKeyUp({
+                    str      : e.str,
+                    keyCode  : e.keyCode,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
+            })
+
             obj._init();
         }
 

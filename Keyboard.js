@@ -5,15 +5,17 @@ function Keyboard() {
     EventDispatcher.call(this);
 }
 
+Keyboard.prototype = Object.create(EventDispatcher.prototype);
+Keyboard.prototype.constructor = Keyboard;
+
 Keyboard.prototype.handleKeyDown = function(e) {
-    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, { code: e.code, str: e.str, keyboard: this }));
+    e.keyboard = this;
+    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_DOWN, e));
 }
 
 Keyboard.prototype.handleKeyUp = function(e) {
-    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, { code: e.code, str: e.str, keyboard: this }));
+    e.keyboard = this;
+    this.dispatchEvent(new KeyboardEvent(KeyboardEvent.KEY_UP, e));
 }
-
-Keyboard.prototype = Object.create(EventDispatcher.prototype);
-Keyboard.prototype.constructor = Keyboard;
 
 module.exports = Keyboard;
