@@ -52,15 +52,36 @@ function createBrowserWindow(obj) {
     var mouse = obj.input.mouse;
 
     canvas.addEventListener('mousedown', function(e) {
-        mouse.handleMouseDown({ x: e.offsetX, y: e.offsetY });
+        mouse.handleMouseDown({
+            x        : e.offsetX,
+            y        : e.offsetY,
+            altKey   : e.altKey,
+            shiftKey : e.shiftKey,
+            ctrlKey  : e.ctrlKey,
+            metaKey  : e.metaKey
+        });
     })
 
     canvas.addEventListener('mouseup', function(e) {
-        mouse.handleMouseUp({ x: e.offsetX, y: e.offsetY });
+        mouse.handleMouseUp({
+            x        : e.offsetX,
+            y        : e.offsetY,
+            altKey   : e.altKey,
+            shiftKey : e.shiftKey,
+            ctrlKey  : e.ctrlKey,
+            metaKey  : e.metaKey
+        });
     })
 
     canvas.addEventListener('mousemove', function(e) {
-        mouse.handleMouseMove({ x: e.offsetX, y: e.offsetY });
+        mouse.handleMouseMove({
+            x        : e.offsetX,
+            y        : e.offsetY,
+            altKey   : e.altKey,
+            shiftKey : e.shiftKey,
+            ctrlKey  : e.ctrlKey,
+            metaKey  : e.metaKey
+        });
     })
 
     var mouseWheelEvent = /Firefox/i.test(navigator.userAgent) ? 'DOMMouseScroll' : 'mousewheel';
@@ -68,7 +89,14 @@ function createBrowserWindow(obj) {
     window.addEventListener(mouseWheelEvent, function(e) {
         var dx = 0;
         var dy = e.wheelDelta / 10 || -e.detail / 10;
-        obj.settings.mouse.handleMouseScroll({ dx: dx, dy: dy });
+        obj.settings.mouse.handleMouseScroll({
+            dx       : dx,
+            dy       : dy,
+            altKey   : e.altKey,
+            shiftKey : e.shiftKey,
+            ctrlKey  : e.ctrlKey,
+            metaKey  : e.metaKey
+        });
     })
 
     obj.width = canvas.width;

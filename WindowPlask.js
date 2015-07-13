@@ -16,20 +16,55 @@ var WindowPlask = {
             var mouse = obj.input.mouse;
 
             this.on('mouseDown', function(e) {
-                mouse.handleMouseDown({ x: e.x, y: e.y });
+                mouse.handleMouseDown({
+                    x        : e.x,
+                    y        : e.y,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
             });
             this.on('mouseUp', function(e) {
-                mouse.handleMouseUp({ x: e.x, y: e.y });
+                mouse.handleMouseUp({
+                    x        : e.x,
+                    y        : e.y,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
             });
             this.on('mouseMoved', function(e) {
-                mouse.handleMouseMove({ x: e.x, y: e.y });
+                mouse.handleMouseMove({
+                    x        : e.x,
+                    y        : e.y,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
             });
             this.on('mouseDragged', function(e) {
                 //mouse move events are not fired while dragging
-                mouse.handleMouseMove({ x: e.x, y: e.y });
+                mouse.handleMouseMove({
+                    x        : e.x,
+                    y        : e.y,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
             });
             this.on('scrollWheel', function(e) {
-                mouse.handleMouseScroll({ dx: e.dx, dy: e.dy });
+                mouse.handleMouseScroll({
+                    dx       : e.dx,
+                    dy       : e.dy,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
             });
 
             var keyboard = obj.input.keyboard;
