@@ -19,7 +19,7 @@ Time.prototype._update = function(now) {
     this._now = now;
     this._delta = this._now - this._prev;
 
-    this._deltaSeconsd = this._delta / 1000;
+    this._deltaSeconds = this._delta / 1000;
     this._elapsedSeconds = (this._now - this._start) / 1000;
 
     this._frames++;
