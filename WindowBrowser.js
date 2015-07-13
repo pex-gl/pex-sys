@@ -58,7 +58,7 @@ function createBrowserWindow(obj) {
     //canvas.style.width = obj.settings.width / devicePixelRatio + 'px';
     //canvas.style.height = obj.settings.height / devicePixelRatio + 'px';
 
-    var mouse = obj.settings.mouse;
+    var mouse = obj.input.mouse;
 
     canvas.addEventListener('mousedown', function(e) {
         mouse.handleMouseDown({ x: e.offsetX, y: e.offsetY });

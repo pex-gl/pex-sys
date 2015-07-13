@@ -84,14 +84,16 @@ Window.create = function(obj){
     if (window.onMouseScroll) window._mouse.addEventListener(MouseEvent.MOUSE_SCROLL, window.onMouseScroll.bind(window));
 
     var winObj = {
-        settings: {
+        settings : {
             width    : window.settings.width || 1280,
-            height   : window.settings.height || 720,
-            time     : window._time,
+            height   : window.settings.height || 720
+        },
+        time : window._time,
+        input : {
             mouse    : window._mouse,
             keyboard : window._keyboard
         },
-        init: function() {
+        init : function() {
             window._ctx = new Context(this.gl);
             window._width = this.width;
             window._height = this.height;
