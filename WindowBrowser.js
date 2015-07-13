@@ -1,15 +1,6 @@
 var isBrowser       = require('is-browser');
+var raf             = require('raf');
 var Screen          = require('./Screen');
-
-var requestAnimFrame    = null;
-
-if (isBrowser) {
-  requestAnimFrame = function() {
-    return window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function(callback, element) {
-      window.setTimeout(callback, 1000 / 60);
-    };
-  }();
-}
 
 var WebGLContextNames = [
     'experimental-webgl2',
@@ -89,9 +80,10 @@ function createBrowserWindow(obj) {
     //TODO: add preserveDrawingBuffer support
     var contextOptions = DefaultWebGLContextOptions;
 
-    function drawloop() {
+    function drawloop(now) {
+        obj.time._update(now);
         obj.draw();
-        requestAnimFrame(drawloop);
+        raf(drawloop);
     }
 
     //TODO: add framerate support?
@@ -103,7 +95,7 @@ function createBrowserWindow(obj) {
         }
 
         obj.init();
-        requestAnimFrame(drawloop);
+        raf(drawloop);
     }
 
     if (!canvas.parentNode) {
