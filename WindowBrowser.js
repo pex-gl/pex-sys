@@ -89,7 +89,7 @@ function createBrowserWindow(obj) {
     window.addEventListener(mouseWheelEvent, function(e) {
         var dx = 0;
         var dy = e.wheelDelta / 10 || -e.detail / 10;
-        obj.settings.mouse.handleMouseScroll({
+        mouse.handleMouseScroll({
             dx       : dx,
             dy       : dy,
             altKey   : e.altKey,
@@ -98,6 +98,42 @@ function createBrowserWindow(obj) {
             metaKey  : e.metaKey
         });
     })
+
+    var keyboard = obj.input.keyboard;
+
+    window.addEventListener('keydown', function(e) {
+        console.log(e)
+        keyboard.handleKeyDown({
+            str      : '',
+            keyCode  : e.keyCode,
+            altKey   : e.altKey,
+            shiftKey : e.shiftKey,
+            ctrlKey  : e.ctrlKey,
+            metaKey  : e.metaKey
+        });
+    });
+
+    window.addEventListener('keypress', function(e) {
+        keyboard.handleKeyPress({
+            str      : String.fromCharCode(e.charCode),
+            keyCode  : e.keyCode,
+            altKey   : e.altKey,
+            shiftKey : e.shiftKey,
+            ctrlKey  : e.ctrlKey,
+            metaKey  : e.metaKey
+        });
+    });
+
+    window.addEventListener('keyup', function(e) {
+        keyboard.handleKeyUp({
+            str      : '',
+            keyCode  : e.keyCode,
+            altKey   : e.altKey,
+            shiftKey : e.shiftKey,
+            ctrlKey  : e.ctrlKey,
+            metaKey  : e.metaKey
+        });
+    });
 
     obj.width = canvas.width;
     obj.height = canvas.height;
