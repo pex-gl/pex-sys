@@ -71,6 +71,14 @@ var WindowPlask = {
 
             this.on('keyDown', function(e) {
                 keyboard.handleKeyDown({
+                    str      : '',
+                    keyCode  : e.keyCode,
+                    altKey   : e.option,
+                    shiftKey : e.shift,
+                    ctrlKey  : e.ctrl,
+                    metaKey  : e.cmd
+                });
+                keyboard.handleKeyPress({
                     str      : e.str,
                     keyCode  : e.keyCode,
                     altKey   : e.option,
@@ -82,7 +90,7 @@ var WindowPlask = {
 
             this.on('keyUp', function(e) {
                 keyboard.handleKeyUp({
-                    str      : e.str,
+                    str      : '',
                     keyCode  : e.keyCode,
                     altKey   : e.option,
                     shiftKey : e.shift,
