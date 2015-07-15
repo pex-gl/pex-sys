@@ -5,7 +5,7 @@ function Time() {
     this._delta = 0;
     this._deltaSeconds = 0;
     this._elapsedSeconds = 0;
-    this._frames = 0;
+    this._frames = -1;
     this._stopped = false;
 
     this._fpsUpdateFrequency = 3000; //3s
