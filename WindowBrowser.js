@@ -102,7 +102,6 @@ function createBrowserWindow(obj) {
     var keyboard = obj.input.keyboard;
 
     window.addEventListener('keydown', function(e) {
-        console.log(e)
         keyboard.handleKeyDown({
             str      : '',
             keyCode  : e.keyCode,
