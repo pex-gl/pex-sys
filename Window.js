@@ -11,6 +11,18 @@ var KeyboardEvent   = require('./KeyboardEvent');
 
 var current = null;
 
+var ListenerCallbackMethod = {
+    MOUSE_DOWN    : 'onMouseDown',
+    MOUSE_UP      : 'onMouseUp',
+    MOUSE_DRAG    : 'onMouseDrag',
+    MOUSE_MOVE    : 'onMouseMove',
+    MOUSE_SCROLL  : 'onMouseScroll',
+    KEY_DOWN      : 'onKeyDown',
+    KEY_PRESS     : 'onKeyPress',
+    KEY_UP        : 'onKeyUp',
+    WINDOW_RESIZE : 'onWindowResize'
+};
+
 function Window(){
     this._ctx = null;
     this._resources = { };
@@ -70,6 +82,54 @@ Window.prototype.getKeyboard = function() {
     return this._keyboard;
 };
 
+Window.prototype.addEventListener = function(listenerObjOrType, method){
+    if(method === undefined){
+        if(listenerObjOrType === null || typeof listenerObjOrType !== 'object'){
+            throw new Error('Invalid listener object.');
+        }
+        var mouse    = this._mouse;
+        var keyboard = this._keyboard;
+        for(var p in listenerObjOrType){
+            if(typeof listenerObjOrType[p] !== 'function'){
+                continue;
+            }
+            var func = listenerObjOrType[p];
+            switch (p){
+                case ListenerCallbackMethod.MOUSE_DOWN :
+                    mouse.addEventListener(MouseEvent.MOUSE_DOWN,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.MOUSE_UP :
+                    mouse.addEventListener(MouseEvent.MOUSE_DOWN,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.MOUSE_DRAG :
+                    mouse.addEventListener(MouseEvent.MOUSE_DRAG,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.MOUSE_MOVE :
+                    mouse.addEventListener(MouseEvent.MOUSE_MOVE,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.MOUSE_SCROLL:
+                    mouse.addEventListener(MouseEvent.MOUSE_SCROLL,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.KEY_DOWN :
+                    keyboard.addEventListener(KeyboardEvent.KEY_DOWN,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.KEY_PRESS :
+                    keyboard.addEventListener(KeyboardEvent.KEY_PRESS,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.KEY_UP :
+                    keyboard.addEventListener(KeyboardEvent.KEY_UP,func.bind(listenerObjOrType));
+                    break;
+                case ListenerCallbackMethod.WINDOW_RESIZE :
+                    break;
+            }
+        }
+        return;
+    }
+
+    //window listener
+};
+
+
 Window.create = function(obj){
     var window = new Window();
 
@@ -104,7 +164,7 @@ Window.create = function(obj){
             window.init();
         },
         draw: window.draw.bind(window)
-    }
+    };
 
     ResourceLoader.load(window.resources || {}, function(err, res) {
         if (err) {
