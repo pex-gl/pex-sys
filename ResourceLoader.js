@@ -49,7 +49,10 @@ function load(resources, callback) {
         }
         else if (res.glsl) {
             res.glsl.then(function(glslString) {
-                onLoaded(null, glslString);
+                //Escape promise catch-all-errors sinkhole
+                setTimeout(function() {
+                    onLoaded(null, glslString);
+                }, 1);
             }).catch(function(e) {
                 onLoaded(e, null);
             })
