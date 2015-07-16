@@ -99,7 +99,7 @@ Window.prototype.addEventListener = function(listenerObjOrType, method){
                     mouse.addEventListener(MouseEvent.MOUSE_DOWN,func.bind(listenerObjOrType));
                     break;
                 case ListenerCallbackMethod.MOUSE_UP :
-                    mouse.addEventListener(MouseEvent.MOUSE_DOWN,func.bind(listenerObjOrType));
+                    mouse.addEventListener(MouseEvent.MOUSE_UP,func.bind(listenerObjOrType));
                     break;
                 case ListenerCallbackMethod.MOUSE_DRAG :
                     mouse.addEventListener(MouseEvent.MOUSE_DRAG,func.bind(listenerObjOrType));
