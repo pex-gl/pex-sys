@@ -149,8 +149,9 @@ Window.create = function(obj){
 
     var winObj = {
         settings : {
-            width    : window.settings.width || 1280,
-            height   : window.settings.height || 720
+            width      : window.settings.width || 1280,
+            height     : window.settings.height || 720,
+            fullscreen : window.settings.fullscreen || false,
         },
         time : window._time,
         input : {

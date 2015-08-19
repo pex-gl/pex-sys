@@ -52,6 +52,12 @@ function createBrowserWindow(obj) {
 
     canvas.width = obj.settings.width;
     canvas.height = obj.settings.height;
+
+    if (obj.settings.fullscreen) {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        document.body.style.margin = '0';
+    }
     //canvas.style.width = obj.settings.width / devicePixelRatio + 'px';
     //canvas.style.height = obj.settings.height / devicePixelRatio + 'px';
 

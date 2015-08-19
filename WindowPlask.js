@@ -9,6 +9,11 @@ var WindowPlask = {
         obj.settings.multisample = (obj.settings.multisample === undefined) ? true : obj.settings.multisample;
         //obj.settings.highdpi = Screen.getDevicePixelRatio();
 
+        if (obj.settings.fullscreen) {
+            obj.settings.width = Screen.getWidth();
+            obj.settings.height = Screen.getHeight();
+        }
+
         obj._init = obj.init;
         obj.init = function() {
             this.framerate(60);
