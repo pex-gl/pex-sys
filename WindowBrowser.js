@@ -3,6 +3,11 @@ var raf             = require('raf');
 var Screen          = require('./Screen');
 
 var WebGLContextNames = [
+    'experimental-webgl',
+    'webgl'
+];
+
+var WebGL2ContextNames = [
     'experimental-webgl2',
     'webgl2',
     'experimental-webgl',
@@ -20,12 +25,13 @@ var DefaultWebGLContextOptions = {
     failIfMajorPerformanceCaveat    : false
 };
 
-function getWebGLContext(canvas, contextOptions) {
+function getWebGLContext(canvas, contextOptions, contextNames) {
     var gl = null;
     for(var i=0; i<WebGLContextNames.length; i++) {
         try {
-            gl = canvas.getContext(WebGLContextNames[i], contextOptions);
+            gl = canvas.getContext(contextNames[i], contextOptions);
             if (gl) {
+                console.log(contextNames[i])
                 break;
             }
         }
@@ -151,7 +157,7 @@ function createBrowserWindow(obj) {
 
     //TODO: add framerate support?
     function go() {
-        obj.gl = getWebGLContext(canvas, contextOptions);
+        obj.gl = getWebGLContext(canvas, contextOptions, obj.settings.webgl2 ? WebGL2ContextNames : WebGLContextNames);
 
         if (obj.gl === null) {
             throw new Error('WindowBrowser: No WebGL context is available.');
