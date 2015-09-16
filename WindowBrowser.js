@@ -57,6 +57,7 @@ function createBrowserWindow(obj) {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
         document.body.style.margin = '0';
+        document.body.style.overflow = 'hidden';
     }
     //canvas.style.width = obj.settings.width / devicePixelRatio + 'px';
     //canvas.style.height = obj.settings.height / devicePixelRatio + 'px';
