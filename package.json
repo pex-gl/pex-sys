@@ -2,7 +2,7 @@
   "name": "pex-sys",
   "version": "1.0.0-alpha.1",
   "description": "System and platform specific utilities for the pex library",
-  "homepage": "https://github.com/variablestudio/pex-sys",
+  "homepage": "https://github.com/pex-gl/pex-sys",
   "keywords": [
     "pex",
     "geometry",
@@ -29,9 +29,9 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/variablestudio/pex-sys.git"
+    "url": "https://github.com/pex-gl/pex-sys.git"
   },
-  "bugs": "https://github.com/variablestudio/pex-sys/issues",
+  "bugs": "https://github.com/pex-gl/pex-sys/issues",
   "license": "MIT",
   "dependencies": {
     "is-browser": "^2.0.1",
