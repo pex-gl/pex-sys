@@ -3,6 +3,9 @@ var plask           = isBrowser ? {} : require('plask');
 var Screen          = require('./Screen');
 var now             = require("performance-now");
 
+/**
+ * Plask specific implementation of Window
+ */
 var WindowPlask = {
     create: function(obj) {
         obj.settings.type = obj.settings.type || '3d';
