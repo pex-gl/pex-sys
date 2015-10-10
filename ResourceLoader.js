@@ -1,6 +1,38 @@
 var io = require('pex-io');
 
-function load(resources, callback) {
+/**
+ * ResourceLoader class
+ * @class
+ */
+var ResourceLoader = {
+}
+
+/**
+ * Load provided resources
+ * @param   {Object} resources - map of resources, see example
+ * @param   {Function} callback function(err, resources), see example
+ * @returns {Object}   - with same properties are resource list but resolved to the actual data
+ *
+ * @example
+ * var glslify = require('glslify-promise');
+ * var resources = {
+ *     vert    : { glsl: glslify(__dirname + '/shader.vert') },
+ *     frag    : { glsl: glslify(__dirname + '/shader.frag') },
+ *     img     : { image: __dirname + '/tex.jpg'},
+ *     hdrImg  : { binary: __dirname + '/tex.hdr'}
+ *     data    : { json: __dirname + '/data.json'},
+ *     hello   : { text: __dirname + '/hello.txt'}
+ * };
+ * Resource.load(resources, function(err, res) {
+ * 	  res.vert   //{Promise}
+ * 	  res.frag   //{Promise}
+ * 	  res.img    //{Image} in a Browser or {SkCanvas} in Plask
+ * 	  res.hdrImg //{ArrayBuffer}
+ * 	  res.data   //{JSON}
+ * 	  res.hello  //{String}
+ * })
+ */
+ResourceLoader.load = function(resources, callback) {
     var results = {};
     var errors = {};
     var hadErrors = false;
@@ -67,8 +99,6 @@ function load(resources, callback) {
     }
 }
 
-var ResourceLoader = {
-    load: load
-}
+
 
 module.exports = ResourceLoader;
