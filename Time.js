@@ -1,3 +1,7 @@
+/**
+ * Time class
+ * @class
+ */
 function Time() {
     this._start = 0;
     this._now = 0;
@@ -14,6 +18,11 @@ function Time() {
     this._fps = 0;
 }
 
+/**
+ * Update time. Used by a Window instance.
+ * @protected
+ * @param  {Number} now - current time in miliseconds
+ */
 Time.prototype._update = function(now) {
     this._prev = this._now;
     this._now = now;
@@ -35,6 +44,10 @@ Time.prototype._update = function(now) {
     }
 }
 
+/**
+ * Stops updating the time. Used by a Window instance.
+ * @protected
+ */
 Time.prototype._stop = function() {
     this._stopped = true;
     this._delta = 0;
@@ -45,6 +58,10 @@ Time.prototype._stop = function() {
     this._fps = 0;
 }
 
+/**
+ * Restarts counting the time. Used by a Window instance.
+ * @protected
+ */
 Time.prototype._restart = function(now) {
     this._start = now;
     this._now = now;
@@ -60,6 +77,10 @@ Time.prototype._restart = function(now) {
     this._fps = 0;
 }
 
+/**
+ * Resumes counting the time. Used by a Window instance.
+ * @protected
+ */
 Time.prototype._resume = function(now) {
     this._now = now;
     this._prev = now;
@@ -71,23 +92,42 @@ Time.prototype._resume = function(now) {
     this._fps = 0;
 }
 
+/**
+ * Get frame delta time in miliseconds
+ * @return {Number}
+ */
 Time.prototype.getDelta = function() {
     return this._delta;
 }
 
+/**
+ * Get frame delta time in seconds
+ * @return {Number}
+ */
 Time.prototype.getDeltaSeconds = function() {
     return this._deltaSeconds;
 }
 
-//FIXME: cache that?
+/**
+ * Get number of seconds since the start of this Timer
+ * @return {Number}
+ */
 Time.prototype.getElapsedSeconds = function() {
     return this._elapsedSeconds;
 }
 
+/**
+ * Get number of frames since the start of this Timer
+ * @return {Number}
+ */
 Time.prototype.getElapsedFrames = function() {
     return this._frames;
 }
 
+/**
+ * Get average frames per seconds
+ * @return {Number}
+ */
 Time.prototype.getFPS = function() {
     return this._fps;
 }
