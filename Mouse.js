@@ -1,6 +1,25 @@
 var EventDispatcher = require('./EventDispatcher');
 var MouseEvent      = require('./MouseEvent');
 
+/**
+ * EventDispatcher for mouse events
+ * @class
+ *
+ * @example
+ * var Window = require('pex-sys').Window;
+ * var MouseEvent = require('pex-sys').MouseEvent;
+ *
+ * Window.create({
+ * 	 init: function() {
+ * 	 	var mouse = this.getMouse()
+ * 	 	mouse.addEventListener(MouseEvent.MOUSE_DOWN, function(e){ });
+ * 	 	mouse.addEventListener(MouseEvent.MOUSE_UP, function(e){ });
+ * 	 	mouse.addEventListener(MouseEvent.MOUSE_MOVE, function(e){ });
+ * 	 	mouse.addEventListener(MouseEvent.MOUSE_DRAG, function(e){ });
+ * 	 	mouse.addEventListener(MouseEvent.MOUSE_SCROLL, function(e){ });
+ * 	 }
+ * })
+ */
 function Mouse() {
     EventDispatcher.call(this);
 
