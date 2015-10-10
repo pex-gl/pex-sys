@@ -194,6 +194,9 @@ function createBrowserWindow(obj) {
     }
 }
 
+/**
+ * Browser specific implementation of Window
+ */
 var WindowBrowser = {
     create : createBrowserWindow
 }
