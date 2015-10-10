@@ -1,8 +1,8 @@
 /**
- * EventDispatcher base class.
+ * Broadcasts events to registered event listeners.
  * @constructor
+ * @class
  */
-
 EventDispatcher = function () {
     this._listeners = {};
 };
@@ -19,10 +19,9 @@ EventDispatcher.prototype.addEventListener = function (type, method) {
 };
 
 /**
- * Dispatch an event
+ * Sends given event to all registered event listeners for that event type
  * @param {Event} event - The event
  */
-
 EventDispatcher.prototype.dispatchEvent = function (event) {
     var type = event.getType();
     if (!this.hasEventListener(type)){
