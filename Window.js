@@ -8,6 +8,7 @@ var Mouse           = require('./Mouse');
 var MouseEvent      = require('./MouseEvent');
 var Keyboard        = require('./Keyboard');
 var KeyboardEvent   = require('./KeyboardEvent');
+var Screen          = require('./Screen');
 
 var current = null;
 
@@ -215,7 +216,7 @@ Window.create = function(obj){
             width      : window.settings.width || 1280,
             height     : window.settings.height || 720,
             fullscreen : window.settings.fullscreen || false,
-            highdpi    : window.settings.highdpi || 1
+            highdpi    : window.settings.highdpi || Screen.getDevicePixelRatio()
         },
         time : window._time,
         input : {
