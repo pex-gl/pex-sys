@@ -47,19 +47,17 @@ function createBrowserWindow(obj) {
 
     //TODO: add default width, height support
 
-    var devicePixelRatio = obj.settings.highdpi;
-
-    canvas.width = obj.settings.width * devicePixelRatio;
-    canvas.height = obj.settings.height * devicePixelRatio;
+    canvas.width = obj.settings.width * obj.settings.pixelRatio;
+    canvas.height = obj.settings.height * obj.settings.pixelRatio;
 
     if (obj.settings.fullscreen) {
-        canvas.width = window.innerWidth * devicePixelRatio;
-        canvas.height = window.innerHeight * devicePixelRatio;
+        canvas.width = window.innerWidth * obj.settings.pixelRatio;
+        canvas.height = window.innerHeight * obj.settings.pixelRatio;
         document.body.style.margin = '0';
         document.body.style.overflow = 'hidden';
     }
-    canvas.style.width = canvas.width / devicePixelRatio + 'px';
-    canvas.style.height = canvas.height / devicePixelRatio + 'px';
+    canvas.style.width = canvas.width / obj.settings.pixelRatio + 'px';
+    canvas.style.height = canvas.height / obj.settings.pixelRatio + 'px';
 
     var mouse = obj.input.mouse;
 
