@@ -1,13 +1,15 @@
-var Context         = require('pex-context/Context');
-var isBrowser       = require('is-browser');
-var WindowBrowser   = require('./WindowBrowser');
-var WindowPlask     = require('./WindowPlask');
-var ResourceLoader  = require('./ResourceLoader');
-var Time            = require('./Time');
-var Mouse           = require('./Mouse');
-var MouseEvent      = require('./MouseEvent');
-var Keyboard        = require('./Keyboard');
-var KeyboardEvent   = require('./KeyboardEvent');
+var Context           = require('pex-context/Context');
+var isBrowser         = require('is-browser');
+var EventDispatcher   = require('./EventDispatcher');
+var WindowEvent       = require('./WindowEvent');
+var ResourceLoader    = require('./ResourceLoader');
+var WindowImplBrowser = require('./WindowImplBrowser');
+var WindowImplPlask   = require('./WindowImplPlask');
+var Time              = require('./Time');
+var Mouse             = require('./Mouse');
+var MouseEvent        = require('./MouseEvent');
+var Keyboard          = require('./Keyboard');
+var KeyboardEvent     = require('./KeyboardEvent');
 
 var current = null;
 
@@ -23,41 +25,29 @@ var ListenerCallbackMethod = {
     WINDOW_RESIZE : 'onWindowResize'
 };
 
-/**
- * Base window class
- * @class
- */
 function Window(){
+    EventDispatcher.call(this);
+
+    this._impl = null;
+
     this._ctx = null;
-    this._resources = { };
+    this._resources = {};
 
     this._time = new Time();
     this._mouse = new Mouse();
     this._keyboard = new Keyboard();
 }
 
-/**
- * Get current window (or canvas) width in px
- * @return {Number}
- */
-Window.prototype.getWidth = function(){
-    return this._width;
-};
+Window.prototype = Object.create(EventDispatcher.prototype);
+Window.prototype.constructor = Window;
 
-/**
- * Get current window (or canvas) height in px
- * @return {Number}
- */
-Window.prototype.getHeight = function(){
-    return this._height;
-};
+Window.prototype.setSize = function(width,height,pixelRatio){
+    this._impl.setSize(width,height,pixelRatio);
 
-/**
- * Get current window (or canvas) aspect ratio
- * @return {Number}
- */
-Window.prototype.getAspectRatio = function(){
-    return this.getWidth() / this.getHeight();
+    this.dispatchEvent(new WindowEvent(WindowEvent.RESIZE,{
+        width  : this.getWidth(),
+        height : this.getHeight()
+    }))
 };
 
 /**
@@ -67,22 +57,62 @@ Window.prototype.getAspectRatio = function(){
  */
 Window.prototype.getSize = function(out){
     out = out || new Array(2);
-    out[0] = this.getWidth();
-    out[1] = this.getHeight();
+    out[0] = this._impl.width;
+    out[1] = this._impl.height;
     return out;
 };
 
 /**
-* Get current window (or canvas) bounds
-* @param {Array} array to put data into
-* @return {Array} [0, 0, width, height]
-*/
+ * Get current window (or canvas) width in px
+ * @return {Number}
+ */
+Window.prototype.getWidth = function(){
+    return this._impl.width;
+};
+
+/**
+ * Get current window (or canvas) height in px
+ * @return {Number}
+ */
+Window.prototype.getHeight = function(){
+    return this._impl.height;
+};
+
+/**
+ * Get current window (or canvas) aspect ratio
+ * @return {Number}
+ */
+Window.prototype.getAspectRatio = function(){
+    return this._impl.width / this._impl.height;
+};
+
+Window.prototype.getPixelRatio = function(){
+    return this._impl.pixelRatio;
+};
+
+/**
+ * Get current window (or canvas) bounds
+ * @param {Array} array to put data into
+ * @return {Array} [0, 0, width, height]
+ */
 Window.prototype.getBounds = function(out){
     out = out || new Array(4);
     out[0] = out[1] = 0;
     out[2] = this.getWidth();
     out[3] = this.getHeight();
     return out;
+};
+
+Window.prototype.setFullScreen = function(enable){
+    this._impl.setFullScreen(enable);
+};
+
+Window.prototype.isFullScreen = function(){
+    return this._impl.fullScreen;
+};
+
+Window.prototype.toggleFullScreen = function(){
+    this.isFullScreen() ? this.setFullScreen(false) : this.setFullScreen(true);
 };
 
 /**
@@ -105,7 +135,7 @@ Window.prototype.getResources = function(){
  * Get Time instance associated with this window or canvas
  * @return {Time}
  */
-Window.prototype.getTime = function() {
+Window.prototype.getTime = function(){
     return this._time;
 };
 
@@ -113,7 +143,7 @@ Window.prototype.getTime = function() {
  * Get Mouse instance associated with this window or canvas
  * @return {Mouse}
  */
-Window.prototype.getMouse = function() {
+Window.prototype.getMouse = function(){
     return this._mouse;
 };
 
@@ -121,9 +151,13 @@ Window.prototype.getMouse = function() {
  * Get Keyboard instance associated with this window or canvas
  * @return {Keyboard}
  */
-Window.prototype.getKeyboard = function() {
+Window.prototype.getKeyboard = function(){
     return this._keyboard;
 };
+
+Window.prototype.onWindowResize = function(e){};
+
+Window.prototype._addEventListener = Window.prototype.addEventListener;
 
 /**
  * Helper method for registering multiple event listeners at once
@@ -139,8 +173,8 @@ Window.prototype.getKeyboard = function() {
  * @param  {Function} listenerObjOrType.onWindowResize
  * @param  {Function} [calback] callback function requried type is String
  */
-Window.prototype.addEventListener = function(listenerObjOrType, callback){
-    if(callback === undefined){
+Window.prototype.addEventListener = function(listenerObjOrType, method){
+    if(method === undefined){
         if(listenerObjOrType === null || typeof listenerObjOrType !== 'object'){
             throw new Error('Invalid listener object.');
         }
@@ -177,13 +211,14 @@ Window.prototype.addEventListener = function(listenerObjOrType, callback){
                     keyboard.addEventListener(KeyboardEvent.KEY_UP,func.bind(listenerObjOrType));
                     break;
                 case ListenerCallbackMethod.WINDOW_RESIZE :
+                    this._addEventListener(WindowEvent.RESIZE, func.bind(listenerObjOrType));
                     break;
             }
         }
         return;
     }
 
-    //window listener
+    this._addEventListener(listenerObjOrType,method);
 };
 
 /**
@@ -196,10 +231,11 @@ Window.prototype.addEventListener = function(listenerObjOrType, callback){
 Window.create = function(obj){
     var window = new Window();
 
-    for (var p in obj) {
+    for(var p in obj){
         window[p] = obj[p];
     }
 
+<<<<<<< HEAD
     if (window.onMouseDown) window._mouse.addEventListener(MouseEvent.MOUSE_DOWN, window.onMouseDown.bind(window));
     if (window.onMouseUp) window._mouse.addEventListener(MouseEvent.MOUSE_UP, window.onMouseUp.bind(window));
     if (window.onMouseMove) window._mouse.addEventListener(MouseEvent.MOUSE_MOVE, window.onMouseMove.bind(window));
@@ -233,25 +269,70 @@ Window.create = function(obj){
 
     ResourceLoader.load(window.resources || {}, function(err, res) {
         if (err) {
+=======
+    window.resources = window.resources || {};
+
+    var settings = obj.settings;
+
+    settings.width      = settings.width  || 1280;
+    settings.height     = settings.height || 720;
+    settings.pixelRatio = settings.pixelRatio || 1;
+    settings.fullScreen = settings.fullScreen || false;
+
+    window._pixelRatio = settings.pixelRatio;
+
+    function initWindowImpl(){
+        var mouse = window._mouse;
+
+        if(window.onMouseDown){
+            mouse.addEventListener(MouseEvent.MOUSE_DOWN, window.onMouseDown.bind(window));
+        }
+        if(window.onMouseUp){
+            mouse.addEventListener(MouseEvent.MOUSE_UP, window.onMouseUp.bind(window));
+        }
+        if(window.onMouseMove){
+            mouse.addEventListener(MouseEvent.MOUSE_MOVE, window.onMouseMove.bind(window));
+        }
+        if(window.onMouseDrag){
+            mouse.addEventListener(MouseEvent.MOUSE_DRAG, window.onMouseDrag.bind(window));
+        }
+        if(window.onMouseScroll){
+            mouse.addEventListener(MouseEvent.MOUSE_SCROLL, window.onMouseScroll.bind(window));
+        }
+
+        var keyboard = window._keyboard;
+
+        if(window.onKeyDown){
+            keyboard.addEventListener(KeyboardEvent.KEY_DOWN, window.onKeyDown.bind(window));
+        }
+        if(window.onKeyPress){
+            keyboard.addEventListener(KeyboardEvent.KEY_PRESS, window.onKeyPress.bind(window));
+        }
+        if(window.onKeyUp){
+            keyboard.addEventListener(KeyboardEvent.KEY_UP, window.onKeyUp.bind(window));
+        }
+
+        if(isBrowser){
+            WindowImplBrowser.create(window,settings);
+        }
+        else {
+            WindowImplPlask.create(window,settings);
+        }
+    }
+
+    ResourceLoader.load(window.resources, function(err, res){
+        if(err){
+>>>>>>> pex-gl/master
             console.log('Window.create failed loading resources');
             console.log(err);
         }
         else {
             window._resources = res;
+            delete window.resources;
 
-            if (isBrowser) {
-                WindowBrowser.create(winObj);
-            }
-            else {
-                WindowPlask.create(winObj);
-            }
+            initWindowImpl();
         }
-    })
-};
-
-//FIXME: finish implementing or drop Window.getCurrent()
-Window.getCurrent = function(){
-    return current;
+    });
 };
 
 module.exports = Window;
