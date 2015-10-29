@@ -40,13 +40,10 @@ function getWebGLContext(canvas, contextOptions) {
 function setCanvasSize(canvas,width,height,pixelRatio){
     pixelRatio = pixelRatio === undefined ? 1 : pixelRatio;
 
-    //canvas.width  = width * pixelRatio;
-    //canvas.height = height * pixelRatio;
-    //canvas.style.width  = width  + 'px';
-    //canvas.style.height = height + 'px';
-
-    canvas.width = width;
-    canvas.height = height;
+    canvas.width  = width * pixelRatio;
+    canvas.height = height * pixelRatio;
+    canvas.style.width  = width  + 'px';
+    canvas.style.height = height + 'px';
 }
 
 function WindowImplBrowser(){
@@ -61,10 +58,8 @@ WindowImplBrowser.prototype.setSize = function(width,height,pixelRatio){
     pixelRatio = pixelRatio === undefined ? this.pixelRatio : pixelRatio;
 
     setCanvasSize(this.canvas, width, height, pixelRatio);
-    //this.width  = width * pixelRatio;
-    //this.height = height * pixelRatio;
-    this.width = width;
-    this.height = height;
+    this.width  = width * pixelRatio;
+    this.height = height * pixelRatio;
 };
 
 WindowImplBrowser.prototype.setFullScreen = function(enable){
@@ -116,6 +111,8 @@ WindowImplBrowser.create = function(windowPex,settings){
         width  = settings.width;
         height = settings.height;
     }
+
+
 
     setCanvasSize(canvas,width,height,settings.pixelRatio);
 
@@ -259,4 +256,3 @@ WindowImplBrowser.create = function(windowPex,settings){
 };
 
 module.exports = WindowImplBrowser;
-
