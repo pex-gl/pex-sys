@@ -235,41 +235,6 @@ Window.create = function(obj){
         window[p] = obj[p];
     }
 
-<<<<<<< HEAD
-    if (window.onMouseDown) window._mouse.addEventListener(MouseEvent.MOUSE_DOWN, window.onMouseDown.bind(window));
-    if (window.onMouseUp) window._mouse.addEventListener(MouseEvent.MOUSE_UP, window.onMouseUp.bind(window));
-    if (window.onMouseMove) window._mouse.addEventListener(MouseEvent.MOUSE_MOVE, window.onMouseMove.bind(window));
-    if (window.onMouseDrag) window._mouse.addEventListener(MouseEvent.MOUSE_DRAG, window.onMouseDrag.bind(window));
-    if (window.onMouseScroll) window._mouse.addEventListener(MouseEvent.MOUSE_SCROLL, window.onMouseScroll.bind(window));
-
-    if (window.onKeyDown) window._keyboard.addEventListener(KeyboardEvent.KEY_DOWN, window.onKeyDown.bind(window));
-    if (window.onKeyPress) window._keyboard.addEventListener(KeyboardEvent.KEY_PRESS, window.onKeyPress.bind(window));
-    if (window.onKeyUp) window._keyboard.addEventListener(KeyboardEvent.KEY_UP, window.onKeyUp.bind(window));
-
-    var winObj = {
-        settings : {
-            width      : window.settings.width || 1280,
-            height     : window.settings.height || 720,
-            fullscreen : window.settings.fullscreen || false,
-            pixelRatio : window.settings.pixelRatio || 1
-        },
-        time : window._time,
-        input : {
-            mouse    : window._mouse,
-            keyboard : window._keyboard
-        },
-        init : function() {
-            window._ctx = new Context(this.gl);
-            window._width = this.width;
-            window._height = this.height;
-            window.init();
-        },
-        draw: window.draw.bind(window)
-    };
-
-    ResourceLoader.load(window.resources || {}, function(err, res) {
-        if (err) {
-=======
     window.resources = window.resources || {};
 
     var settings = obj.settings;
@@ -322,7 +287,6 @@ Window.create = function(obj){
 
     ResourceLoader.load(window.resources, function(err, res){
         if(err){
->>>>>>> pex-gl/master
             console.log('Window.create failed loading resources');
             console.log(err);
         }
