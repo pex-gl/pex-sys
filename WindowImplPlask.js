@@ -24,6 +24,7 @@ WindowImplPlask.create = function(windowPex,settings){
     settings.type = settings.type || '3d';
     settings.multisample = settings.multisample === undefined ? true : settings.multisample;
     settings.title = settings.title || 'pex';
+    settings.fullscreen = settings.fullScreen;
 
     var impl = new WindowImplPlask();
 
@@ -143,4 +144,3 @@ WindowImplPlask.create = function(windowPex,settings){
 };
 
 module.exports = WindowImplPlask;
-
