@@ -45,22 +45,19 @@ function createBrowserWindow(obj) {
     //TODO: add option to provide canvas reference
     var canvas = document.createElement('canvas');
 
-    //TODO: add fullscreen / fullwindow support
     //TODO: add default width, height support
 
-    var devicePixelRatio = Screen.getDevicePixelRatio();
-
-    canvas.width = obj.settings.width;
-    canvas.height = obj.settings.height;
+    canvas.width = obj.settings.width * obj.settings.pixelRatio;
+    canvas.height = obj.settings.height * obj.settings.pixelRatio;
 
     if (obj.settings.fullscreen) {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth * obj.settings.pixelRatio;
+        canvas.height = window.innerHeight * obj.settings.pixelRatio;
         document.body.style.margin = '0';
         document.body.style.overflow = 'hidden';
     }
-    //canvas.style.width = obj.settings.width / devicePixelRatio + 'px';
-    //canvas.style.height = obj.settings.height / devicePixelRatio + 'px';
+    canvas.style.width = canvas.width / obj.settings.pixelRatio + 'px';
+    canvas.style.height = canvas.height / obj.settings.pixelRatio + 'px';
 
     var mouse = obj.input.mouse;
 

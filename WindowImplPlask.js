@@ -5,6 +5,8 @@ var now        = require("performance-now");
 var WindowImpl = require('./WindowImpl');
 var Context    = require('pex-context/Context');
 
+var Screen = require('./Screen');
+
 function WindowImplPlask(){
     WindowImpl.call(this);
 
@@ -24,7 +26,17 @@ WindowImplPlask.create = function(windowPex,settings){
     settings.type = settings.type || '3d';
     settings.multisample = settings.multisample === undefined ? true : settings.multisample;
     settings.title = settings.title || 'pex';
-    settings.fullscreen = settings.fullScreen;
+    settings.fullscreen = settings.fullScreen || false;
+
+    var pixelRatio = settings.pixelRatio || 1;
+    settings.highdpi = pixelRatio;
+
+    if(settings.fullScreen) {
+      settings.width = Screen.getWidth();
+      settings.height = Screen.getHeight();
+    }
+    settings.width *= pixelRatio;
+    settings.height *= pixelRatio;
 
     var impl = new WindowImplPlask();
 
@@ -124,8 +136,8 @@ WindowImplPlask.create = function(windowPex,settings){
         });
 
         impl.plaskObj = this;
-        impl.width    = this.width;
-        impl.height   = this.height;
+        impl.width    = this.settings.width;
+        impl.height   = this.settings.height;
 
         windowPex._impl = impl;
         windowPex._ctx  = new Context(this.gl);

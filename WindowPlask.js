@@ -10,12 +10,15 @@ var WindowPlask = {
     create: function(obj) {
         obj.settings.type = obj.settings.type || '3d';
         obj.settings.multisample = (obj.settings.multisample === undefined) ? true : obj.settings.multisample;
-        //obj.settings.highdpi = Screen.getDevicePixelRatio();
-
+        obj.settings.highdpi = obj.settings.pixelRatio;
+        
         if (obj.settings.fullscreen) {
             obj.settings.width = Screen.getWidth();
             obj.settings.height = Screen.getHeight();
         }
+
+        obj.settings.width *= obj.settings.pixelRatio;
+        obj.settings.height *= obj.settings.pixelRatio;
 
         obj._init = obj.init;
         obj.init = function() {
