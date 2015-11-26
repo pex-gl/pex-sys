@@ -18,8 +18,8 @@ WindowImplPlask.prototype = Object.create(WindowImpl.prototype);
 WindowImplPlask.prototype.constructor = WindowImplPlask;
 
 WindowImplPlask.prototype.setFullScreen = function(){
-    this.plaskObj.setFullScreen(this.title);
     this.fullScreen = !this.fullScreen;
+    this.plaskObj.setFullscreen(this.fullScreen);
 };
 
 WindowImplPlask.create = function(windowPex,settings){
