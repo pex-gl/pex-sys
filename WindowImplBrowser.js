@@ -1,3 +1,6 @@
+//TODO: add retina support
+//TODO: add resize event handling
+
 var isBrowser   = require('is-browser');
 var raf         = require('raf');
 
@@ -20,6 +23,11 @@ var DefaultWebGLContextOptions = {
     preserveDrawingBuffer           : false,
     preferLowPowerToHighPerformance : false,
     failIfMajorPerformanceCaveat    : false
+};
+
+var isiOS9 = function() {
+    var deviceAgent = navigator.userAgent.toLowerCase();
+    return /(iphone|ipod|ipad).* os 9_/.test(deviceAgent);
 };
 
 function getWebGLContext(canvas, contextOptions) {
@@ -104,15 +112,13 @@ WindowImplBrowser.create = function(windowPex,settings){
 
     var width, height;
     if(settings.fullScreen){
-        width  = window.innerWidth;
-        height = window.innerHeight;
+        width = isiOS9 ? document.documentElement.clientWidth : window.innerWidth;
+        height = isiOS9 ? document.documentElement.clientHeight : window.innerHeight;
     }
     else {
         width  = settings.width;
         height = settings.height;
     }
-
-
 
     setCanvasSize(canvas,width,height,settings.pixelRatio);
 
