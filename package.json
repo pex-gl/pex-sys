@@ -1,6 +1,6 @@
 {
   "name": "pex-sys",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "System and platform specific utilities for the pex library",
   "homepage": "https://github.com/pex-gl/pex-sys",
   "keywords": [
