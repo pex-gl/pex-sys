@@ -12,7 +12,7 @@ function Time() {
     this._frames = -1;
     this._stopped = false;
 
-    this._fpsUpdateFrequency = 3000; //3s
+    this._fpsUpdateFrequency = 1000; //1s
     this._fpsFrames = 0;
     this._fpsTime = 0;
     this._fps = 0;
