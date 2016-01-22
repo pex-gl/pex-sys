@@ -30,6 +30,7 @@
   "license": "MIT",
   "dependencies": {
     "is-browser": "^2.0.1",
+    "omgcanvas": "^1.0.2",
     "performance-now": "^0.2.0",
     "raf": "^3.0.0"
   }

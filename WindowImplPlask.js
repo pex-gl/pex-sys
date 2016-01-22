@@ -4,6 +4,7 @@ var now        = require("performance-now");
 
 var WindowImpl = require('./WindowImpl');
 var Context    = require('pex-context/Context');
+var omgcanvas  = require('omgcanvas');
 
 var Screen = require('./Screen');
 
@@ -140,7 +141,12 @@ WindowImplPlask.create = function(windowPex,settings){
         impl.height   = this.settings.height;
 
         windowPex._impl = impl;
-        windowPex._ctx  = new Context(this.gl);
+        if (settings.type == '2d') {
+            windowPex._ctx = new omgcanvas.CanvasContext(this.canvas);
+        }
+        else {
+            windowPex._ctx  = new Context(this.gl);
+        }
 
         windowPex.init();
     };
