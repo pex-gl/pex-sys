@@ -122,17 +122,6 @@ WindowImplBrowser.create = function(windowPex,settings){
 
     setCanvasSize(canvas,width,height,settings.pixelRatio);
 
-    //TODO: add MSAA multisample support
-    //TODO: add stencil option support
-    //TODO: add premultipliedAlpha support
-    //TODO: add preserveDrawingBuffer support
-    var options = DefaultWebGLContextOptions;
-    var gl      = getWebGLContext(canvas,options);
-
-    if(gl === null){
-        throw new Error('WindowImplBrowser: No WebGL context is available.');
-    }
-
     var impl = new WindowImplBrowser();
     impl.canvas = canvas;
 
@@ -235,7 +224,23 @@ WindowImplBrowser.create = function(windowPex,settings){
         windowPex._impl.width  = width;
         windowPex._impl.height = height;
 
-        windowPex._ctx = new Context(gl);
+        if (settings.type == '2d') {
+            windowPex._ctx = canvas.getContext('2d');
+        }
+        else {
+            //TODO: add MSAA multisample support
+            //TODO: add stencil option support
+            //TODO: add premultipliedAlpha support
+            //TODO: add preserveDrawingBuffer support
+            var options = DefaultWebGLContextOptions;
+            
+            var gl = getWebGLContext(canvas,options);
+            if(gl === null){
+                throw new Error('WindowImplBrowser: No WebGL context is available.');
+            }
+
+            windowPex._ctx = new Context(gl);
+        }
 
         windowPex.init();
         drawLoop(0);
