@@ -108,7 +108,7 @@ WindowImplBrowser.prototype.setFullScreen = function(enable){
 };
 
 WindowImplBrowser.create = function(windowPex,settings){
-    var canvas  = document.createElement('canvas');
+    var canvas  = settings.canvas || document.createElement('canvas');
 
     var width, height;
     if(settings.fullScreen){
@@ -233,7 +233,7 @@ WindowImplBrowser.create = function(windowPex,settings){
             //TODO: add premultipliedAlpha support
             //TODO: add preserveDrawingBuffer support
             var options = DefaultWebGLContextOptions;
-            
+
             var gl = getWebGLContext(canvas,options);
             if(gl === null){
                 throw new Error('WindowImplBrowser: No WebGL context is available.');
