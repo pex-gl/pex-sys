@@ -218,7 +218,10 @@ WindowImplBrowser.create = function(windowPex,settings){
     }
 
     function go(){
-        document.body.appendChild(canvas);
+        if (!settings.canvas) {
+            //we careted new canvas, so we need to add it to the DOM
+            document.body.appendChild(canvas);
+        }
 
         windowPex._impl = impl;
         windowPex._impl.width  = width;
