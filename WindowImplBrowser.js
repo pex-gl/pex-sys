@@ -68,6 +68,7 @@ WindowImplBrowser.prototype.setSize = function(width,height,pixelRatio){
     setCanvasSize(this.canvas, width, height, pixelRatio);
     this.width  = width * pixelRatio;
     this.height = height * pixelRatio;
+    this.pixelRatio = pixelRatio;
 };
 
 WindowImplBrowser.prototype.setFullScreen = function(enable){
@@ -111,6 +112,7 @@ WindowImplBrowser.create = function(windowPex,settings){
     var canvas  = settings.canvas || document.createElement('canvas');
 
     var width, height;
+    var pixelRatio = settings.pixelRatio || 1;
     if(settings.fullScreen){
         width = isiOS9 ? document.documentElement.clientWidth : window.innerWidth;
         height = isiOS9 ? document.documentElement.clientHeight : window.innerHeight;
@@ -120,17 +122,17 @@ WindowImplBrowser.create = function(windowPex,settings){
         height = settings.height;
     }
 
-    setCanvasSize(canvas,width,height,settings.pixelRatio);
 
     var impl = new WindowImplBrowser();
     impl.canvas = canvas;
+    impl.setSize(width,height,pixelRatio);
 
     var mouse = windowPex._mouse;
 
     impl.canvas.addEventListener('mousedown', function(e) {
         mouse.handleMouseDown({
-            x        : e.offsetX,
-            y        : e.offsetY,
+            x        : e.offsetX * pixelRatio,
+            y        : e.offsetY * pixelRatio,
             altKey   : e.altKey,
             shiftKey : e.shiftKey,
             ctrlKey  : e.ctrlKey,
@@ -140,8 +142,8 @@ WindowImplBrowser.create = function(windowPex,settings){
 
     impl.canvas.addEventListener('mouseup', function(e) {
         mouse.handleMouseUp({
-            x        : e.offsetX,
-            y        : e.offsetY,
+            x        : e.offsetX * pixelRatio,
+            y        : e.offsetY * pixelRatio,
             altKey   : e.altKey,
             shiftKey : e.shiftKey,
             ctrlKey  : e.ctrlKey,
@@ -151,8 +153,8 @@ WindowImplBrowser.create = function(windowPex,settings){
 
     impl.canvas.addEventListener('mousemove', function(e) {
         mouse.handleMouseMove({
-            x        : e.offsetX,
-            y        : e.offsetY,
+            x        : e.offsetX * pixelRatio,
+            y        : e.offsetY * pixelRatio,
             altKey   : e.altKey,
             shiftKey : e.shiftKey,
             ctrlKey  : e.ctrlKey,
@@ -224,8 +226,9 @@ WindowImplBrowser.create = function(windowPex,settings){
         }
 
         windowPex._impl = impl;
-        windowPex._impl.width  = width;
-        windowPex._impl.height = height;
+        windowPex._impl.width  = width * pixelRatio;
+        windowPex._impl.height = height * pixelRatio;
+        windowPex._impl.pixelRatio = pixelRatio;
 
         if (settings.type == '2d') {
             windowPex._ctx = canvas.getContext('2d');

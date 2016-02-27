@@ -1,4 +1,4 @@
-var isBrowser  = require('is-browser');
+var isBrowser  = require('is-browser')
 var plask      = isBrowser ? {} : require('plask');
 var now        = require("performance-now");
 
@@ -29,8 +29,7 @@ WindowImplPlask.create = function(windowPex,settings){
     settings.title = settings.title || 'pex';
     settings.fullscreen = settings.fullScreen || false;
 
-    var pixelRatio = settings.pixelRatio || 1;
-    settings.highdpi = pixelRatio;
+    var pixelRatio = settings.pixelRatio = settings.highdpi = settings.pixelRatio || 1;
 
     if(settings.fullScreen) {
       settings.width = Screen.getWidth();
@@ -139,6 +138,7 @@ WindowImplPlask.create = function(windowPex,settings){
         impl.plaskObj = this;
         impl.width    = this.settings.width;
         impl.height   = this.settings.height;
+        impl.pixelRatio = this.settings.pixelRatio;
 
         windowPex._impl = impl;
         if (settings.type == '2d') {

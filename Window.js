@@ -46,7 +46,8 @@ Window.prototype.setSize = function(width,height,pixelRatio){
 
     this.dispatchEvent(new WindowEvent(WindowEvent.RESIZE,{
         width  : this.getWidth(),
-        height : this.getHeight()
+        height : this.getHeight(),
+        pixelRatio: this.getPixelRatio()
     }))
 };
 
@@ -243,8 +244,6 @@ Window.create = function(obj){
     settings.height     = settings.height || 720;
     settings.pixelRatio = settings.pixelRatio || 1;
     settings.fullScreen = settings.fullScreen || false;
-
-    window._pixelRatio = settings.pixelRatio;
 
     function initWindowImpl(){
         var mouse = window._mouse;
