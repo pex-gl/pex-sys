@@ -162,6 +162,69 @@ WindowImplBrowser.create = function(windowPex,settings){
         });
     });
 
+    var lastTouch = null;
+    impl.canvas.addEventListener('touchstart', function(e) {
+        var touches = Array.prototype.slice.call(e.touches).map(function(touch) {
+            touch.x = touch.clientX * pixelRatio;
+            touch.y = touch.clientY * pixelRatio;
+            return touch;
+        })
+        lastTouch = touches[0];
+        mouse.handleMouseDown({
+            x        : touches[0].x,
+            y        : touches[0].y,
+            altKey   : false,
+            shiftKey : false,
+            ctrlKey  : false,
+            metaKey  : false,
+            touches  : touches
+        });
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    })
+
+    impl.canvas.addEventListener('touchend', function(e) {
+        var touches = Array.prototype.slice.call(e.touches).map(function(touch) {
+            touch.x = touch.clientX * pixelRatio;
+            touch.y = touch.clientY * pixelRatio;
+            return touch;
+        })
+        mouse.handleMouseUp({
+            x        : lastTouch.x,
+            y        : lastTouch.y,
+            altKey   : false,
+            shiftKey : false,
+            ctrlKey  : false,
+            metaKey  : false,
+            touches  : touches
+        });
+        lastTouch = null;
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    })
+
+    impl.canvas.addEventListener('touchmove', function(e) {
+        var touches = Array.prototype.slice.call(e.touches).map(function(touch) {
+            touch.x = touch.clientX * pixelRatio;
+            touch.y = touch.clientY * pixelRatio;
+            return touch;
+        })
+        mouse.handleMouseMove({
+            x        : touches[0].x,
+            y        : touches[0].y,
+            altKey   : false,
+            shiftKey : false,
+            ctrlKey  : false,
+            metaKey  : false,
+            touches  : touches
+        });
+        e.preventDefault();
+        e.stopPropagation();
+        return false;
+    })
+
     var mouseWheelEvent = /Firefox/i.test(navigator.userAgent) ? 'DOMMouseScroll' : 'mousewheel';
     //FIXME: horizontal scroll in the browser? What is .detail?
     window.addEventListener(mouseWheelEvent, function(e) {
