@@ -4,7 +4,7 @@ var now        = require("performance-now");
 
 var WindowImpl = require('./WindowImpl');
 var Context    = require('pex-context/Context');
-var omgcanvas  = require('omgcanvas');
+var omgcanvas  = isBrowser ? {} : require('omgcanvas');
 
 var Screen = require('./Screen');
 
