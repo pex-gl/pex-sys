@@ -3,6 +3,7 @@ var plask      = isBrowser ? {} : require('plask');
 var now        = require("performance-now");
 
 var WindowImpl = require('./WindowImpl');
+var WindowEvent = require('./WindowEvent');
 var Context    = require('pex-context/Context');
 var omgcanvas  = isBrowser ? {} : require('omgcanvas');
 
@@ -140,7 +141,6 @@ WindowImplPlask.create = function(windowPex,settings){
         impl.height   = this.settings.height;
         impl.pixelRatio = this.settings.pixelRatio;
 
-        windowPex._impl = impl;
         if (settings.type == '2d') {
             windowPex._ctx = new omgcanvas.CanvasContext(this.canvas);
         }
@@ -148,7 +148,9 @@ WindowImplPlask.create = function(windowPex,settings){
             windowPex._ctx  = new Context(this.gl);
         }
 
-        windowPex.init();
+        setTimeout(function() {
+            impl.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_READY, {}));
+        }, 1);
     };
 
     obj.draw = function(){

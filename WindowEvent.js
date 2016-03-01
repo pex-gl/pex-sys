@@ -7,6 +7,7 @@ function WindowEvent(type, data){
 WindowEvent.prototype = Object.create(Event.prototype);
 WindowEvent.prototype.constructor = WindowEvent;
 
-WindowEvent.RESIZE = 'windowresize';
+WindowEvent.WINDOW_RESIZE = 'windowresize';
+WindowEvent.WINDOW_READY = 'windowready';
 
 module.exports = WindowEvent;

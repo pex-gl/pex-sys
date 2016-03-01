@@ -44,7 +44,7 @@ Window.prototype.constructor = Window;
 Window.prototype.setSize = function(width,height,pixelRatio){
     this._impl.setSize(width,height,pixelRatio);
 
-    this.dispatchEvent(new WindowEvent(WindowEvent.RESIZE,{
+    this.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_RESIZE, {
         width  : this.getWidth(),
         height : this.getHeight(),
         pixelRatio: this.getPixelRatio()
@@ -156,8 +156,6 @@ Window.prototype.getKeyboard = function(){
     return this._keyboard;
 };
 
-Window.prototype.onWindowResize = function(e){};
-
 Window.prototype._addEventListener = Window.prototype.addEventListener;
 
 /**
@@ -181,6 +179,7 @@ Window.prototype.addEventListener = function(listenerObjOrType, method){
         }
         var mouse    = this._mouse;
         var keyboard = this._keyboard;
+        var impl = this._impl;
         for(var p in listenerObjOrType){
             if(typeof listenerObjOrType[p] !== 'function'){
                 continue;
@@ -212,7 +211,7 @@ Window.prototype.addEventListener = function(listenerObjOrType, method){
                     keyboard.addEventListener(KeyboardEvent.KEY_UP,func.bind(listenerObjOrType));
                     break;
                 case ListenerCallbackMethod.WINDOW_RESIZE :
-                    this._addEventListener(WindowEvent.RESIZE, func.bind(listenerObjOrType));
+                    impl.addEventListener(WindowEvent.WINDOW_RESIZE, func.bind(listenerObjOrType));
                     break;
             }
         }
@@ -247,6 +246,7 @@ Window.create = function(obj){
 
     function initWindowImpl(){
         var mouse = window._mouse;
+        var impl = window._impl;
 
         if(window.onMouseDown){
             mouse.addEventListener(MouseEvent.MOUSE_DOWN, window.onMouseDown.bind(window));
@@ -276,12 +276,26 @@ Window.create = function(obj){
             keyboard.addEventListener(KeyboardEvent.KEY_UP, window.onKeyUp.bind(window));
         }
 
+
+        var impl = null;
+
         if(isBrowser){
-            WindowImplBrowser.create(window,settings);
+            impl = WindowImplBrowser.create(window,settings);
         }
         else {
-            WindowImplPlask.create(window,settings);
+            impl = WindowImplPlask.create(window,settings);
         }
+
+        if(window.onWindowResize) {
+            impl.addEventListener(WindowEvent.WINDOW_RESIZE, window.onWindowResize.bind(window));
+        }
+
+        impl.addEventListener(WindowEvent.WINDOW_READY, function() {
+            console.log('ready')
+            window.init();
+        }.bind(this));
+
+        window._impl = impl;
     }
 
     ResourceLoader.load(window.resources, function(err, res){

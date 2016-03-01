@@ -1,11 +1,9 @@
-//TODO: add retina support
-//TODO: add resize event handling
-
 var isBrowser   = require('is-browser');
 var raf         = require('raf');
 
 var WindowImpl  = require('./WindowImpl');
 var Context     = require('pex-context/Context');
+var WindowEvent       = require('./WindowEvent');
 
 var WebGLContextNames = [
     'experimental-webgl2',
@@ -275,6 +273,15 @@ WindowImplBrowser.create = function(windowPex,settings){
         });
     });
 
+    window.addEventListener('resize', function(e) {
+        e.width = isiOS9 ? document.documentElement.clientWidth : window.innerWidth;
+        e.height = isiOS9 ? document.documentElement.clientHeight : window.innerHeight;
+        if(settings.fullScreen) {
+            impl.setSize(e.width, e.height, settings.pixelRatio);
+        }
+
+        impl.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_RESIZE, e));
+    });
 
     function drawLoop(now){
         windowPex._time._update(now);
@@ -288,10 +295,9 @@ WindowImplBrowser.create = function(windowPex,settings){
             document.body.appendChild(canvas);
         }
 
-        windowPex._impl = impl;
-        windowPex._impl.width  = width * pixelRatio;
-        windowPex._impl.height = height * pixelRatio;
-        windowPex._impl.pixelRatio = pixelRatio;
+        impl.width    = width * pixelRatio;
+        impl.height   = height * pixelRatio;
+        impl.pixelRatio = pixelRatio;
 
         if (settings.type == '2d') {
             windowPex._ctx = canvas.getContext('2d');
@@ -311,8 +317,10 @@ WindowImplBrowser.create = function(windowPex,settings){
             windowPex._ctx = new Context(gl);
         }
 
-        windowPex.init();
-        drawLoop(0);
+        setTimeout(function() {
+            impl.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_READY, {}));
+            drawLoop(0);
+        }, 1)
     }
 
     if(!canvas.parentNode){
