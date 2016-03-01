@@ -179,7 +179,6 @@ Window.prototype.addEventListener = function(listenerObjOrType, method){
         }
         var mouse    = this._mouse;
         var keyboard = this._keyboard;
-        var impl = this._impl;
         for(var p in listenerObjOrType){
             if(typeof listenerObjOrType[p] !== 'function'){
                 continue;
@@ -211,7 +210,7 @@ Window.prototype.addEventListener = function(listenerObjOrType, method){
                     keyboard.addEventListener(KeyboardEvent.KEY_UP,func.bind(listenerObjOrType));
                     break;
                 case ListenerCallbackMethod.WINDOW_RESIZE :
-                    impl.addEventListener(WindowEvent.WINDOW_RESIZE, func.bind(listenerObjOrType));
+                    this.addEventListener(WindowEvent.WINDOW_RESIZE, func.bind(listenerObjOrType));
                     break;
             }
         }
@@ -287,8 +286,12 @@ Window.create = function(obj){
         }
 
         if(window.onWindowResize) {
-            impl.addEventListener(WindowEvent.WINDOW_RESIZE, window.onWindowResize.bind(window));
+            window.addEventListener(WindowEvent.WINDOW_RESIZE, window.onWindowResize.bind(window));
         }
+
+        impl.addEventListener(WindowEvent.WINDOW_RESIZE, function(e) {
+            window.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_RESIZE, e))
+        });
 
         impl.addEventListener(WindowEvent.WINDOW_READY, function() {
             console.log('ready')
