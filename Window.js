@@ -294,7 +294,6 @@ Window.create = function(obj){
         });
 
         impl.addEventListener(WindowEvent.WINDOW_READY, function() {
-            console.log('ready')
             window.init();
         }.bind(this));
 
