@@ -148,9 +148,7 @@ WindowImplPlask.create = function(windowPex,settings){
             windowPex._ctx  = new Context(this.gl);
         }
 
-        setTimeout(function() {
-            impl.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_READY, {}));
-        }, 1);
+        impl.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_READY, {}));
     };
 
     obj.draw = function(){
@@ -158,7 +156,9 @@ WindowImplPlask.create = function(windowPex,settings){
         windowPex.draw();
     };
 
-    plask.simpleWindow(obj);
+    setTimeout(function() {
+        plask.simpleWindow(obj);
+    }, 1);
 
     return impl;
 };
