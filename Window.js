@@ -1,10 +1,10 @@
 var Context           = require('pex-context/Context');
 var isBrowser         = require('is-browser');
+var isPlask           = require('is-plask');
 var EventDispatcher   = require('./EventDispatcher');
 var WindowEvent       = require('./WindowEvent');
 var ResourceLoader    = require('./ResourceLoader');
-var WindowImplBrowser = require('./WindowImplBrowser');
-var WindowImplPlask   = require('./WindowImplPlask');
+var WindowImpl        = isPlask ? require('./WindowImplPlask') : require('./WindowImplBrowser');
 var Time              = require('./Time');
 var Mouse             = require('./Mouse');
 var MouseEvent        = require('./MouseEvent');
@@ -275,15 +275,7 @@ Window.create = function(obj){
             keyboard.addEventListener(KeyboardEvent.KEY_UP, window.onKeyUp.bind(window));
         }
 
-
-        var impl = null;
-
-        if(isBrowser){
-            impl = WindowImplBrowser.create(window,settings);
-        }
-        else {
-            impl = WindowImplPlask.create(window,settings);
-        }
+        var impl = WindowImpl.create(window, settings);
 
         if(window.onWindowResize) {
             window.addEventListener(WindowEvent.WINDOW_RESIZE, window.onWindowResize.bind(window));
