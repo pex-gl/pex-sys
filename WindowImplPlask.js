@@ -1,11 +1,10 @@
-var isBrowser  = require('is-browser')
-var plask      = isBrowser ? {} : require('plask');
+var plask      = require('plask');
 var now        = require("performance-now");
 
 var WindowImpl = require('./WindowImpl');
 var WindowEvent = require('./WindowEvent');
 var Context    = require('pex-context/Context');
-var omgcanvas  = isBrowser ? {} : require('omgcanvas');
+var omgcanvas  = require('omgcanvas');
 
 var Screen = require('./Screen');
 

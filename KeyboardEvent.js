@@ -1,6 +1,5 @@
 var Event = require('./Event');
-var isBrowser = require('is-browser');
-
+var isPlask = require('is-plask');
 
 /**
  * Keyboard Event class
@@ -50,60 +49,60 @@ KeyboardEvent.KEY_UP    = 'keyup';
  * @constant
  */
 
-KeyboardEvent.VK_BACKSPACE  = isBrowser ?  8 :  51;
+KeyboardEvent.VK_BACKSPACE  = isPlask ?  51 : 8;
 
 /**
  * Enter key code
  * @constant
  */
-KeyboardEvent.VK_ENTER      = isBrowser ? 13 :  36;
+KeyboardEvent.VK_ENTER      = isPlask ? 56 : 13;
 
 /**
  * Space key code
  * @constant
  */
-KeyboardEvent.VK_SPACE   = isBrowser ? 32 :  49;
+KeyboardEvent.VK_SPACE   = isPlask ? 49 : 32;
 
 /**
  * Delete key code
  * @constant
  */
-KeyboardEvent.VK_DELETE  = isBrowser ? 46 : 117;
+KeyboardEvent.VK_DELETE  = isPlask ? 117 : 46;
 
 /**
  * Tab key code
  * @constant
  */
-KeyboardEvent.VK_TAB     = isBrowser ?  9 :  48;
+KeyboardEvent.VK_TAB     = isPlask ? 48 : 9;
 
 /**
  * Escape key code
  * @constant
  */
-KeyboardEvent.VK_ESC     = isBrowser ? 27 :  53;
+KeyboardEvent.VK_ESC     = isPlask ? 53 : 27;
 
 /**
  * Up arrow key code
  * @constant
  */
-KeyboardEvent.VK_UP      = isBrowser ? 38 : 126;
+KeyboardEvent.VK_UP      = isPlask ? 126 : 38;
 
 /**
  * Down arrow key code
  * @constant
  */
-KeyboardEvent.VK_DOWN    = isBrowser ? 40 : 125;
+KeyboardEvent.VK_DOWN    = isPlask ? 125 : 40;
 
 /**
  * Left arrow key code
  * @constant
  */
-KeyboardEvent.VK_LEFT    = isBrowser ? 37 : 123;
+KeyboardEvent.VK_LEFT    = isPlask ? 123 : 37;
 
 /**
  * Right arrow key code
  * @constant
  */
-KeyboardEvent.VK_RIGHT   = isBrowser ? 39 : 124;
+KeyboardEvent.VK_RIGHT   = isPlask ? 124 : 39;
 
 module.exports = KeyboardEvent;

@@ -1,5 +1,4 @@
 var Context           = require('pex-context/Context');
-var isBrowser         = require('is-browser');
 var isPlask           = require('is-plask');
 var EventDispatcher   = require('./EventDispatcher');
 var WindowEvent       = require('./WindowEvent');

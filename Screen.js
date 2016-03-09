@@ -1,5 +1,5 @@
-var isBrowser  = require('is-browser');
-var plask      = isBrowser ? {} : require('plask');
+var isPlask  = require('is-plask');
+var plask    = isPlask ? require('plask') : {};
 
 /**
  * Singleton for retrieving information about available screens / displays
@@ -9,11 +9,11 @@ var Screen = {
      * @return {Number} number of screens
      */
     getNumScreens: function() {
-        if (isBrowser) {
-            return 1;
+        if (isPlask) {
+            return plask.Window.screensInfo().length;
         }
         else {
-            return plask.Window.screensInfo().length;
+            return 1;
         }
 
         return this._screens;
@@ -26,11 +26,11 @@ var Screen = {
     getWidth: function(screenId) {
         screenId = screenId || 0;
 
-        if (isBrowser) {
-            return window.innerWidth;
+        if (isPlask) {
+            return plask.Window.screensInfo()[screenId].width;
         }
         else {
-            return plask.Window.screensInfo()[screenId].width;
+            return window.innerWidth;
         }
     },
     /**
@@ -41,11 +41,11 @@ var Screen = {
     getHeight: function(screenId) {
         screenId = screenId || 0;
 
-        if (isBrowser) {
-            return window.innerHeight;
+        if (isPlask) {
+            return plask.Window.screensInfo()[screenId].height;
         }
         else {
-            return plask.Window.screensInfo()[screenId].height;
+            return window.innerHeight;
         }
     },
     /**
@@ -56,11 +56,11 @@ var Screen = {
     getDevicePixelRatio: function(screenId) {
         screenId = screenId || 0;
 
-        if (isBrowser) {
-            return window.devicePixelRatio;
+        if (isPlask) {
+            return plask.Window.screensInfo()[screenId].highdpi;
         }
         else {
-            return plask.Window.screensInfo()[screenId].highdpi;
+            return window.devicePixelRatio;
         }
     }
 };
