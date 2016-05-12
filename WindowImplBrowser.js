@@ -1,4 +1,3 @@
-var isBrowser   = require('is-browser');
 var raf         = require('raf');
 
 var WindowImpl  = require('./WindowImpl');
