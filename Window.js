@@ -244,41 +244,43 @@ Window.create = function(obj){
 
     function initWindowImpl(){
         var mouse = window._mouse;
-        var impl = window._impl;
-
-        if(window.onMouseDown){
-            mouse.addEventListener(MouseEvent.MOUSE_DOWN, window.onMouseDown.bind(window));
-        }
-        if(window.onMouseUp){
-            mouse.addEventListener(MouseEvent.MOUSE_UP, window.onMouseUp.bind(window));
-        }
-        if(window.onMouseMove){
-            mouse.addEventListener(MouseEvent.MOUSE_MOVE, window.onMouseMove.bind(window));
-        }
-        if(window.onMouseDrag){
-            mouse.addEventListener(MouseEvent.MOUSE_DRAG, window.onMouseDrag.bind(window));
-        }
-        if(window.onMouseScroll){
-            mouse.addEventListener(MouseEvent.MOUSE_SCROLL, window.onMouseScroll.bind(window));
-        }
-
         var keyboard = window._keyboard;
 
-        if(window.onKeyDown){
-            keyboard.addEventListener(KeyboardEvent.KEY_DOWN, window.onKeyDown.bind(window));
-        }
-        if(window.onKeyPress){
-            keyboard.addEventListener(KeyboardEvent.KEY_PRESS, window.onKeyPress.bind(window));
-        }
-        if(window.onKeyUp){
-            keyboard.addEventListener(KeyboardEvent.KEY_UP, window.onKeyUp.bind(window));
+        //Wait with adding event listeners until the app initializes
+        //This allow a GUI or an Arcball controller to get priority over e.g. onMouseDown
+        function addWindowEventListeners() {
+            if(window.onMouseDown){
+                mouse.addEventListener(MouseEvent.MOUSE_DOWN, window.onMouseDown.bind(window));
+            }
+            if(window.onMouseUp){
+                mouse.addEventListener(MouseEvent.MOUSE_UP, window.onMouseUp.bind(window));
+            }
+            if(window.onMouseMove){
+                mouse.addEventListener(MouseEvent.MOUSE_MOVE, window.onMouseMove.bind(window));
+            }
+            if(window.onMouseDrag){
+                mouse.addEventListener(MouseEvent.MOUSE_DRAG, window.onMouseDrag.bind(window));
+            }
+            if(window.onMouseScroll){
+                mouse.addEventListener(MouseEvent.MOUSE_SCROLL, window.onMouseScroll.bind(window));
+            }
+
+
+            if(window.onKeyDown){
+                keyboard.addEventListener(KeyboardEvent.KEY_DOWN, window.onKeyDown.bind(window));
+            }
+            if(window.onKeyPress){
+                keyboard.addEventListener(KeyboardEvent.KEY_PRESS, window.onKeyPress.bind(window));
+            }
+            if(window.onKeyUp){
+                keyboard.addEventListener(KeyboardEvent.KEY_UP, window.onKeyUp.bind(window));
+            }
+            if(window.onWindowResize) {
+                window.addEventListener(WindowEvent.WINDOW_RESIZE, window.onWindowResize.bind(window));
+            }
         }
 
         var impl = WindowImpl.create(window, settings);
-
-        if(window.onWindowResize) {
-            window.addEventListener(WindowEvent.WINDOW_RESIZE, window.onWindowResize.bind(window));
-        }
 
         impl.addEventListener(WindowEvent.WINDOW_RESIZE, function(e) {
             window.dispatchEvent(new WindowEvent(WindowEvent.WINDOW_RESIZE, e))
@@ -286,6 +288,7 @@ Window.create = function(obj){
 
         impl.addEventListener(WindowEvent.WINDOW_READY, function() {
             window.init();
+            addWindowEventListeners();
         }.bind(this));
 
         window._impl = impl;
