@@ -1,10 +1,10 @@
 var plask      = require('plask');
 var now        = require("performance-now");
-
 var WindowImpl = require('./WindowImpl');
 var WindowEvent = require('./WindowEvent');
 var Context    = require('pex-context/Context');
 var omgcanvas  = require('omgcanvas');
+var WebGLDebugUtils   = require('webgl-debug');
 
 var Screen = require('./Screen');
 
@@ -144,6 +144,12 @@ WindowImplPlask.create = function(windowPex,settings){
             windowPex._ctx = new omgcanvas.CanvasContext(this.canvas);
         }
         else {
+            if (settings.debug) {
+                function throwOnGLError(err, funcName, args) {
+                    throw new Error(WebGLDebugUtils.glEnumToString(err) + " was caused by call to " + funcName);
+                };
+                this.gl = WebGLDebugUtils.makeDebugContext(this.gl, throwOnGLError);
+            }
             windowPex._ctx  = new Context(this.gl);
         }
 
@@ -152,7 +158,19 @@ WindowImplPlask.create = function(windowPex,settings){
 
     obj.draw = function(){
         windowPex._time._update(now());
-        windowPex.draw();
+        if (settings.debug) {
+            try {
+                windowPex.draw();
+            }
+            catch(e) {
+                console.log(e);
+                console.log(e.stack);
+                process.exit(-1);
+            }
+        }
+        else {
+            windowPex.draw()
+        }
     };
 
     setTimeout(function() {

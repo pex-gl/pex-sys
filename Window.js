@@ -241,6 +241,7 @@ Window.create = function(obj){
     settings.height     = settings.height || 720;
     settings.pixelRatio = settings.pixelRatio || 1;
     settings.fullScreen = settings.fullScreen || false;
+    settings.debug      = settings.debug || false;
 
     function initWindowImpl(){
         var mouse = window._mouse;
@@ -287,7 +288,21 @@ Window.create = function(obj){
         });
 
         impl.addEventListener(WindowEvent.WINDOW_READY, function() {
-            window.init();
+            if (settings.debug) {
+                try {
+                    window.init();
+                }
+                catch (e) {
+                    console.log('Window.init error:', e);
+                    console.log('Window.init error stack:', e.stack);
+                    if (isPlask) {
+                        process.exit(-1)
+                    }
+                }
+            }
+            else {
+                window.init()
+            }
             addWindowEventListeners();
         }.bind(this));
 

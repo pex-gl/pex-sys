@@ -3,6 +3,7 @@ var raf         = require('raf');
 var WindowImpl  = require('./WindowImpl');
 var Context     = require('pex-context/Context');
 var WindowEvent       = require('./WindowEvent');
+var WebGLDebugUtils   = require('webgl-debug');
 
 var WebGLContextNames = [
     'experimental-webgl2',
@@ -284,8 +285,19 @@ WindowImplBrowser.create = function(windowPex,settings){
 
     function drawLoop(now){
         windowPex._time._update(now);
-        windowPex.draw();
-        raf(drawLoop);
+        if (settings.debug) {
+            try {
+                windowPex.draw();
+                raf(drawLoop);
+            }
+            catch(e) {
+                console.log(e);
+                console.log(e.stack);
+            }
+        }
+        else {
+            windowPex.draw()
+        }
     }
 
     function go(){
@@ -311,6 +323,13 @@ WindowImplBrowser.create = function(windowPex,settings){
             var gl = getWebGLContext(canvas,options);
             if(gl === null){
                 throw new Error('WindowImplBrowser: No WebGL context is available.');
+            }
+
+            if (settings.debug) {
+                function throwOnGLError(err, funcName, args) {
+                    throw new Error('WindowImplBrowser ' + WebGLDebugUtils.glEnumToString(err) + " was caused by call to " + funcName);
+                };
+                gl = WebGLDebugUtils.makeDebugContext(gl, throwOnGLError);
             }
 
             windowPex._ctx = new Context(gl);
