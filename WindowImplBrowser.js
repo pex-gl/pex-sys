@@ -297,6 +297,7 @@ WindowImplBrowser.create = function(windowPex,settings){
         }
         else {
             windowPex.draw()
+            raf(drawLoop);
         }
     }
 
