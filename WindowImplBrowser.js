@@ -315,11 +315,7 @@ WindowImplBrowser.create = function(windowPex,settings){
             windowPex._ctx = canvas.getContext('2d');
         }
         else {
-            //TODO: add MSAA multisample support
-            //TODO: add stencil option support
-            //TODO: add premultipliedAlpha support
-            //TODO: add preserveDrawingBuffer support
-            var options = DefaultWebGLContextOptions;
+            var options = Object.assign({}, DefaultWebGLContextOptions, settings);
 
             var gl = getWebGLContext(canvas,options);
             if(gl === null){
