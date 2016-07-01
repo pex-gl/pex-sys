@@ -1,4 +1,4 @@
-var plask      = require('plask');
+var plask      = require('plask-wrap');
 var now        = require("performance-now");
 var WindowImpl = require('./WindowImpl');
 var WindowEvent = require('./WindowEvent');

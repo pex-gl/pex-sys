@@ -1,5 +1,5 @@
 var isPlask  = require('is-plask');
-var plask    = isPlask ? require('plask') : {};
+var plask    = require('plask-wrap')
 
 /**
  * Singleton for retrieving information about available screens / displays
