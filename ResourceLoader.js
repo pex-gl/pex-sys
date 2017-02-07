@@ -18,7 +18,7 @@ var ResourceLoader = {
  * var resources = {
  *     vert    : { glsl: glslify(__dirname + '/shader.vert') },
  *     frag    : { glsl: glslify(__dirname + '/shader.frag') },
- *     img     : { image: __dirname + '/tex.jpg'},
+ *     img     : { image: __dirname + '/tex.jpg', crossOrigin: true/false},
  *     hdrImg  : { binary: __dirname + '/tex.hdr'}
  *     data    : { json: __dirname + '/data.json'},
  *     hello   : { text: __dirname + '/hello.txt'}
@@ -68,7 +68,7 @@ ResourceLoader.load = function(resources, callback) {
 
         var res = resources[name];
         if (res.image) {
-            io.loadImage(res.image, onLoaded);
+            io.loadImage(res.image, onLoaded, res.crossOrigin);
         }
         else if (res.text) {
             io.loadText(res.text, onLoaded);
