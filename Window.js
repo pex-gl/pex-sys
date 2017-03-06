@@ -288,6 +288,8 @@ Window.create = function(obj){
         });
 
         impl.addEventListener(WindowEvent.WINDOW_READY, function() {
+            // start counting from init, not from window creation
+            window._time._restart()
             if (settings.debug) {
                 try {
                     window.init();
