@@ -6,8 +6,6 @@ var WindowEvent       = require('./WindowEvent');
 var WebGLDebugUtils   = require('webgl-debug');
 
 var WebGLContextNames = [
-    'experimental-webgl2',
-    'webgl2',
     'experimental-webgl',
     'webgl'
 ];
