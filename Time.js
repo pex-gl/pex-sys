@@ -63,6 +63,7 @@ Time.prototype._stop = function() {
  * @protected
  */
 Time.prototype._restart = function(now) {
+    now = now || 0
     this._start = now;
     this._now = now;
     this._prev = now;
